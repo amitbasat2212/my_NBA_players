@@ -13,11 +13,10 @@ teamId="teamId"
 @app.get('/allThePlayersInSpesificYearAndTeam/')
 async def get_all_the_players(year,teamname):
     tems_id_by_name = teams_id[teamname]
-    res = requests.get(f'http://data.nba.net/10s/prod/v1/{year}/players.json')
-    all_the_player_in_year=res.json()[league][standard]
+    res_players = requests.get(f'http://data.nba.net/10s/prod/v1/{year}/players.json')
+    all_the_player_in_year=res_players.json()[league][standard]
     player_in_the_teams_id = list(filter(lambda player:player[teamId]==tems_id_by_name,all_the_player_in_year))
     return player_in_the_teams_id
-
 
 
 
