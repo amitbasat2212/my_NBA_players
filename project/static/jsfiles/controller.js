@@ -16,8 +16,9 @@ function getPlayers(year, teamMate) {
         RenderSinglton.RenderThePlayers(players);
     });
 }
-$('.get-team').on('click', () => {
-    const teamName = document.querySelector('.foo');
-    const year = document.querySelector('.foo');
-    getPlayers(year, teamName);
+$('#get-team').on('click', () => {
+    const teamName = document.querySelector('#team-name');
+    console.log(teamName);
+    const year = document.querySelector('#year-player');
+    getPlayers(year.value, teamName.value);
 });

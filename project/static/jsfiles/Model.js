@@ -12,12 +12,14 @@ class Model {
     getPlayers(year, teamMate) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const getPlayers = yield $.get(`http://localhost:8001/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate}`);
+                const getPlayers = yield $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase()}`);
                 const Players = [];
-                getPlayers.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                    let image = yield $.get(`https://nba-players.herokuapp.com/players/${element.firstName.lower()}/${element.lastName.lower()}`);
-                    Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, image));
-                }));
+                for (let i = 0; i < getPlayers.length; i++) {
+                    getPlayers[i].forEach((element) => __awaiter(this, void 0, void 0, function* () {
+                        let image = yield $.get(`https://nba-players.herokuapp.com/players/${element.firstName.toLowerCase()}/${element.lastName.toLowerCase()}`);
+                        Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, image));
+                    }));
+                }
                 return (Players);
             }
             catch (err) {

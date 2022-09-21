@@ -1,12 +1,16 @@
 class Model{
     async getPlayers(year:String,teamMate:String):Promise<Player[] | Object>{     
         try{
-            const getPlayers = await $.get(`http://localhost:8001/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate}`)
+            const getPlayers = await $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase( )}`)
             const Players:Player[]=[];
-            getPlayers.forEach(async (element:any) => {
-                let image = await $.get(`https://nba-players.herokuapp.com/players/${element.firstName.lower()}/${element.lastName.lower()}`)
-                Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,image))
-            });
+            for(let i=0;i<getPlayers.length;i++){
+                getPlayers[i].forEach(async (element:any) => {
+                   // let image = await $.get(`https://nba-players.herokuapp.com/players/${element.firstName.toLowerCase()}/${element.lastName.toLowerCase()}`)
+                    Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,"image"))
+                });
+                console.log(Players)
+            }
+               
             
             return (Players)       
         } catch(err){
