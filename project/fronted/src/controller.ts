@@ -9,7 +9,6 @@ async function getPlayers(year:String,teamMate:String) {
 
 $('#get-team').on('click',()=>{
     const teamName = document.querySelector('#team-name') as HTMLInputElement;
-    console.log(teamName)
     const year = document.querySelector('#year-player') as HTMLInputElement;    
     getPlayers(year.value,teamName.value);
 })

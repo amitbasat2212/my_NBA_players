@@ -18,7 +18,6 @@ function getPlayers(year, teamMate) {
 }
 $('#get-team').on('click', () => {
     const teamName = document.querySelector('#team-name');
-    console.log(teamName);
     const year = document.querySelector('#year-player');
     getPlayers(year.value, teamName.value);
 });
