@@ -4,6 +4,7 @@ class Render {
         const source = $('#player_tamplate').html();
         const template = Handlebars.compile(source);
         const newHTML = template({ results: players });
-        $('.row').append(newHTML);
+        console.log(players);
+        $('#row_container').append(newHTML);
     }
 }

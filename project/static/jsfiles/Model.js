@@ -13,13 +13,8 @@ class Model {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const getPlayers = yield $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase()}`);
-                const Players = [];
-                for (let i = 0; i < getPlayers.length; i++) {
-                    getPlayers[i].forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                        let image = yield $.get(`https://nba-players.herokuapp.com/players/${element.firstName.toLowerCase()}/${element.lastName.toLowerCase()}`);
-                        Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, image));
-                    }));
-                }
+                let Players = [];
+                Players = yield create_player(getPlayers);
                 return (Players);
             }
             catch (err) {
@@ -28,12 +23,39 @@ class Model {
         });
     }
 }
+function getImage(firstName, lastName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let image = yield $.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`);
+        if (image == "Sorry, that player was not found. Please check the spelling.") {
+            image = "image";
+        }
+        return image;
+    });
+}
+function create_player(getPlayers) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const Players = [];
+        for (let i = 0; i < getPlayers.length; i++) {
+            getPlayers[i].forEach((element) => __awaiter(this, void 0, void 0, function* () {
+                let lastName = element.lastName.toLowerCase();
+                let firstName = element.firstName.toLowerCase();
+                let image = yield getImage(firstName, lastName);
+                Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, image));
+            }));
+        }
+        yield delay(3000);
+        return Players;
+    });
+}
 class Player {
-    constructor(FirstName, LastName, jerseyNumber, position, imagePlayer) {
+    constructor(FirstName, LastName, jerseyNumber, position, image) {
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber = jerseyNumber;
         this.position = position;
-        this.imagePlayer = imagePlayer;
+        this.image = image;
     }
+}
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

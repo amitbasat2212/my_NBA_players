@@ -2,16 +2,8 @@ class Model{
     async getPlayers(year:String,teamMate:String):Promise<Player[] | Object>{     
         try{
             const getPlayers = await $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase( )}`)
-            const Players:Player[]=[];
-            for(let i=0;i<getPlayers.length;i++){
-                getPlayers[i].forEach(async (element:any) => {
-                   // let image = await $.get(`https://nba-players.herokuapp.com/players/${element.firstName.toLowerCase()}/${element.lastName.toLowerCase()}`)
-                    Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,"image"))
-                });
-                console.log(Players)
-            }
-               
-            
+            let Players:Player[]=[];
+            Players = await create_player(getPlayers);            
             return (Players)       
         } catch(err){
             return {err:err}
@@ -22,21 +14,47 @@ class Model{
 }
 
 
+async function getImage(firstName:String,lastName:String):Promise<String>{
+    let image = await $.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`)
+    if(image == "Sorry, that player was not found. Please check the spelling."){
+       image="image"
+    }
+    return image;
+}
+
+async function create_player(getPlayers:any):Promise<Player[]>{
+    const Players:Player[]=[];   
+    for(let i=0;i<getPlayers.length;i++){
+        getPlayers[i].forEach(async(element:any) => {
+            let lastName=element.lastName.toLowerCase()
+            let firstName = element.firstName.toLowerCase()
+            let image = await getImage(firstName,lastName);
+            Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,image))
+        });
+    }       
+    await delay(3000);
+    return Players; 
+}
+
 class Player{    
     FirstName:String
     LastName:String
     jerseyNumber:String
     position:String
-    imagePlayer:String
-    constructor(FirstName:String,LastName:String,jerseyNumber:String,position:String,imagePlayer:String){
+    image:String
+    constructor(FirstName:String,LastName:String,jerseyNumber:String,position:String,image:String){
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber=jerseyNumber;
         this.position=position;
-        this.imagePlayer = imagePlayer
+        this.image = image
     }
 
 
+}
+
+function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
 
