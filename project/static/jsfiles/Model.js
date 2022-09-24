@@ -43,7 +43,6 @@ function createPlayers(getPlayers) {
                 Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, image));
             });
         }
-        yield delay(3000);
         return Players;
     });
 }

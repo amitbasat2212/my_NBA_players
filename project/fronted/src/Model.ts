@@ -21,8 +21,10 @@ function getImage(firstName:String,lastName:String):any{
             success:function(result){
                 return result;
             }
+           
                
-          })      
+          })   
+             
 }
 
 
@@ -37,7 +39,7 @@ async function createPlayers(getPlayers:any):Promise<Player[]>{
             Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,image))
         });
     }       
-    await delay(3000);
+   
     return Players; 
 }
 
