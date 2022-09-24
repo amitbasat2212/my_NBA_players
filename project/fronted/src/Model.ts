@@ -3,7 +3,7 @@ class Model{
         try{
             const getPlayers = await $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase( )}`)
             let Players:Player[]=[];
-            Players = await create_player(getPlayers);            
+            Players = await createPlayers(getPlayers);            
             return (Players)       
         } catch(err){
             return {err:err}
@@ -14,23 +14,26 @@ class Model{
 }
 
 
-async function getImage(firstName:String,lastName:String):Promise<String>{
-    let image = await $.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`)
-    if(image == "Sorry, that player was not found. Please check the spelling."){
-       image="image"
-    }
-    return image;
+function getImage(firstName:String,lastName:String):any{
+    $.ajax({
+            method: "GET",
+            url: `https://nba-players.herokuapp.com/players/${lastName}/${firstName}`,
+            success:function(result){
+                return result;
+            }
+               
+          })      
 }
 
 
 
-async function create_player(getPlayers:any):Promise<Player[]>{
+async function createPlayers(getPlayers:any):Promise<Player[]>{
     const Players:Player[]=[];   
-    for(let i=0;i<getPlayers.length;i++){
-        getPlayers[i].forEach(async(element:any) => {
+       for(let i=0;i<getPlayers.length;i++){
+        getPlayers[i].forEach((element:any) => {
             let lastName=element.lastName.toLowerCase()
             let firstName = element.firstName.toLowerCase()
-            let image = await getImage(firstName,lastName);
+            let image = getImage(firstName,lastName);
             Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,image))
         });
     }       

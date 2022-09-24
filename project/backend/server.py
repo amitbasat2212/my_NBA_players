@@ -17,7 +17,7 @@ vegas="vegas"
 utah="utah"
 teams="teams"
 teamId="teamId"
-
+isActive="isActive"
 
 current_file = Path(__file__)
 current_file_dir = current_file.parent
@@ -37,8 +37,8 @@ async def get_all_the_players(year,teamname):
     plyers_by_year_and_teammate=[];
     for area in all_the_player_in_year:
         league_players = all_the_player_in_year[area]
-        plyers_by_year_and_teammate.append(list(filter(lambda player:player[teamId]==tems_id_by_name,league_players)))
-        
+        plyers_by_year_and_teammate.append(list(filter(lambda player:player[teamId]==tems_id_by_name and player[isActive],league_players)))
+    
     return plyers_by_year_and_teammate
 
 

@@ -14,7 +14,7 @@ class Model {
             try {
                 const getPlayers = yield $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase()}`);
                 let Players = [];
-                Players = yield create_player(getPlayers);
+                Players = yield createPlayers(getPlayers);
                 return (Players);
             }
             catch (err) {
@@ -24,24 +24,24 @@ class Model {
     }
 }
 function getImage(firstName, lastName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let image = yield $.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`);
-        if (image == "Sorry, that player was not found. Please check the spelling.") {
-            image = "image";
+    $.ajax({
+        method: "GET",
+        url: `https://nba-players.herokuapp.com/players/${lastName}/${firstName}`,
+        success: function (result) {
+            return result;
         }
-        return image;
     });
 }
-function create_player(getPlayers) {
+function createPlayers(getPlayers) {
     return __awaiter(this, void 0, void 0, function* () {
         const Players = [];
         for (let i = 0; i < getPlayers.length; i++) {
-            getPlayers[i].forEach((element) => __awaiter(this, void 0, void 0, function* () {
+            getPlayers[i].forEach((element) => {
                 let lastName = element.lastName.toLowerCase();
                 let firstName = element.firstName.toLowerCase();
-                let image = yield getImage(firstName, lastName);
+                let image = getImage(firstName, lastName);
                 Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, image));
-            }));
+            });
         }
         yield delay(3000);
         return Players;
