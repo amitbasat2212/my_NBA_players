@@ -48,12 +48,12 @@ function create_player(getPlayers) {
     });
 }
 class Player {
-    constructor(FirstName, LastName, jerseyNumber, position, image) {
+    constructor(FirstName, LastName, jerseyNumber, position, Image) {
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber = jerseyNumber;
         this.position = position;
-        this.image = image;
+        this.Image = Image;
     }
 }
 function delay(ms) {

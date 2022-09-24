@@ -22,6 +22,8 @@ async function getImage(firstName:String,lastName:String):Promise<String>{
     return image;
 }
 
+
+
 async function create_player(getPlayers:any):Promise<Player[]>{
     const Players:Player[]=[];   
     for(let i=0;i<getPlayers.length;i++){
@@ -41,13 +43,13 @@ class Player{
     LastName:String
     jerseyNumber:String
     position:String
-    image:String
-    constructor(FirstName:String,LastName:String,jerseyNumber:String,position:String,image:String){
+    Image:String
+    constructor(FirstName:String,LastName:String,jerseyNumber:String,position:String,Image:String){
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber=jerseyNumber;
         this.position=position;
-        this.image = image
+        this.Image = Image
     }
 
 
