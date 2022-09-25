@@ -4,7 +4,7 @@ class Model{
             const getPlayers = await $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase( )}`)
             let Players:Player[]=[];
             const players = JSON.parse(getPlayers)
-            Players = await createPlayers(players);            
+            Players = await this.createPlayers(players);            
             return (Players)       
         } catch(err){
             return {err:err}
@@ -12,59 +12,56 @@ class Model{
         
 
     }
+    async FilterActivePlayers(year:String,teamMate:String):Promise<Player[] | Object>{     
+        const playersFilter:Player[] | Object=await this.getPlayers(year,teamMate);
+        let playersActive:Player[]=[]
+        if(Array.isArray(playersFilter)){
+            playersActive = playersFilter.filter(player => player.isActive==true)    
+        }
+          
+        return playersActive;
+
+         
+
+    }
+
+    
+    async createPlayers(getPlayers:any):Promise<Player[]>{
+        const Players:Player[]=[];   
+           for(let i=0;i<getPlayers.length;i++){
+            getPlayers[i].forEach((element:any) => {                 
+                Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,element.isActive))
+            });
+        }       
+       
+        return Players; 
+    }
 }
 
 
-function getImage(firstName:String,lastName:String):any{
-    $.ajax({
-            method: "GET",
-            url: `https://nba-players.herokuapp.com/players/${lastName}/${firstName}`,
-            success:function(result){
-                return result;
-            }
-           
-               
-          })   
-
-}
 
 
 
-async function createPlayers(getPlayers:any):Promise<Player[]>{
-    const Players:Player[]=[];   
-       for(let i=0;i<getPlayers.length;i++){
-        getPlayers[i].forEach((element:any) => {
-            let lastName=element.lastName.toLowerCase()
-            let firstName = element.firstName.toLowerCase()
-            let image = getImage(firstName,lastName);
-            
-            Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,image))
-        });
-    }       
-   
-    return Players; 
-}
 
 class Player{    
     FirstName:String
     LastName:String
     jerseyNumber:String
     position:String
-    Image:String
-    constructor(FirstName:String,LastName:String,jerseyNumber:String,position:String,Image:String){
+    isActive:boolean
+    
+    constructor(FirstName:String,LastName:String,jerseyNumber:String,position:String,isActive:boolean){
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber=jerseyNumber;
         this.position=position;
-        this.Image = Image
+        this.isActive=isActive;
     }
 
 
 }
 
-function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-}
+
 
 
 

@@ -6,29 +6,30 @@ async function getPlayers(year:String,teamMate:String) {
     RenderSinglton.RenderThePlayers(players)
 }
 
-async function filter_active_player(active:boolean){
-    
+async function filter_active_player(year:String,teamMate:String){
+    const players=await ModelSinglton.FilterActivePlayers(year,teamMate);
+    RenderSinglton.RenderThePlayers(players)
 }
 
-function getPlayerByTeamAndYear(){
+function getPlayerByTeamAndYear(callback:Function){
     const teamName = document.querySelector('#team-name') as HTMLInputElement;
     const year = document.querySelector('#year-player') as HTMLInputElement;    
-    getPlayers(year.value,teamName.value);
+    callback(year.value,teamName.value);
 }
 
 $('#get-team').on('click',()=>{
-    getPlayerByTeamAndYear();
+    getPlayerByTeamAndYear(getPlayers);
 })
 
-$('AcrivePlayer').on('click',()=>{
+$('#ActivePlayer').on('click',()=>{
     const checkbox = document.getElementById(
-        'AcrivePlayer',
+        'ActivePlayer',
       ) as HTMLInputElement | null;
 
       if (checkbox?.checked) {
-        filter_active_player(true)    
+        getPlayerByTeamAndYear(filter_active_player);    
       }else{
-        getPlayerByTeamAndYear();
+        getPlayerByTeamAndYear(getPlayers);
       }  
       
 })
