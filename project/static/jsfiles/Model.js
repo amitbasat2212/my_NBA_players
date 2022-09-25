@@ -14,7 +14,8 @@ class Model {
             try {
                 const getPlayers = yield $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase()}`);
                 let Players = [];
-                Players = yield createPlayers(getPlayers);
+                const players = JSON.parse(getPlayers);
+                Players = yield createPlayers(players);
                 return (Players);
             }
             catch (err) {

@@ -3,7 +3,8 @@ class Model{
         try{
             const getPlayers = await $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase( )}`)
             let Players:Player[]=[];
-            Players = await createPlayers(getPlayers);            
+            const players = JSON.parse(getPlayers)
+            Players = await createPlayers(players);            
             return (Players)       
         } catch(err){
             return {err:err}
@@ -24,7 +25,7 @@ function getImage(firstName:String,lastName:String):any{
            
                
           })   
-             
+
 }
 
 
@@ -36,6 +37,7 @@ async function createPlayers(getPlayers:any):Promise<Player[]>{
             let lastName=element.lastName.toLowerCase()
             let firstName = element.firstName.toLowerCase()
             let image = getImage(firstName,lastName);
+            
             Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,image))
         });
     }       

@@ -1,15 +1,12 @@
 import json
-from pydoc import plain
-from urllib import response
-from fastapi import FastAPI
+from fastapi import FastAPI,status
 import uvicorn
-from fastapi import Response,Request,HTTPException
+from fastapi import Request,HTTPException
 import requests
 from tems_id import teams_id
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from DreamTeam import Dream_team
-import os
 from pathlib import Path
 
 app = FastAPI()
@@ -33,20 +30,23 @@ static_root_absolute = project_root_absolute / "static"
 app.mount("/static", StaticFiles(directory=static_root_absolute), name="static")
 
 
-@app.get('/allThePlayersInSpesificYearAndTeam/')
+@app.get('/allThePlayersInSpesificYearAndTeam/',status_code=status.HTTP_200_OK)
 async def get_all_the_players(year,teamname):
-    tems_id_by_name = teams_id[teamname]
+    tems_id_by_name = teams_id.get(teamname);
+    if(tems_id_by_name==None):
+        raise HTTPException(status_code=404, detail="the team dosent excit")
     res_players = requests.get(f'http://data.nba.net/10s/prod/v1/{year}/players.json')
     if(res_players.status_code==200):
         all_the_player_in_year=res_players.json()[league] 
     else:
         raise HTTPException(status_code=404, detail="erorr in the api")
     plyers_by_year_and_teammate=[];
+    
     for area in all_the_player_in_year:
         league_players = all_the_player_in_year[area]
-        plyers_by_year_and_teammate.append(list(filter(lambda player:player[teamId]==tems_id_by_name and player[isActive],league_players)))
-    
-    return plyers_by_year_and_teammate
+        plyers_by_year_and_teammate.append(list(filter(lambda player:player[teamId]==tems_id_by_name ,league_players)))
+    players_json = json.dumps(plyers_by_year_and_teammate)
+    return players_json
 
 
 def create_player_dream(player):
@@ -61,15 +61,16 @@ def create_player_dream(player):
     return player;
 
 
-@app.post('/AddPlayer/')
+@app.post('/AddPlayer/', status_code=status.HTTP_201_CREATED)
 async def add_player_dream(request: Request):
     respone = await request.json()    
     player = create_player_dream(respone)
     Dream_team.append(player)
-    return json.dump(player)
+    new_player = json.dumps(player)
+    return new_player
     
 
-@app.delete('/DeletePlayer/{id_player}')
+@app.delete('/DeletePlayer/{id_player}',status_code=status.HTTP_200_OK)
 async def delete_player(id_player):
     global Dream_team
     dream_list = [item for item in Dream_team if item.get('id') != id_player]
@@ -77,10 +78,11 @@ async def delete_player(id_player):
     
 
 
-@app.get('/getPlayer/{id_player}')
+@app.get('/getPlayer/{id_player}',status_code=status.HTTP_200_OK)
 async def get_player(id_player):
     dict_player = [item for item in Dream_team if item['id'] == id_player]
-    return json.dump(dict_player);
+    get_player = json.dumps(dict_player)
+    return get_player;
 
 
 @app.get('/')
@@ -91,5 +93,5 @@ def be():
 
 
 if __name__ == "__main__":
-     uvicorn.run("server:app", host="0.0.0.0", port=3001,reload=True)
+     uvicorn.run("server:app", host="0.0.0.0", port=4001,reload=True)
 

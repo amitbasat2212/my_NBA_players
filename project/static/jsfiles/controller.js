@@ -16,8 +16,24 @@ function getPlayers(year, teamMate) {
         RenderSinglton.RenderThePlayers(players);
     });
 }
-$('#get-team').on('click', () => {
+function filter_active_player(active) {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
+function getPlayerByTeamAndYear() {
     const teamName = document.querySelector('#team-name');
     const year = document.querySelector('#year-player');
     getPlayers(year.value, teamName.value);
+}
+$('#get-team').on('click', () => {
+    getPlayerByTeamAndYear();
+});
+$('AcrivePlayer').on('click', () => {
+    const checkbox = document.getElementById('AcrivePlayer');
+    if (checkbox === null || checkbox === void 0 ? void 0 : checkbox.checked) {
+        filter_active_player(true);
+    }
+    else {
+        getPlayerByTeamAndYear();
+    }
 });

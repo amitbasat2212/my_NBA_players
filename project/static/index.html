@@ -14,7 +14,14 @@
         <input id="team-name" placeholder="Team name" type="text"  class="form-control">
         <input id="year-player"  placeholder="year join" type="text"  class="form-control">
         <button id="get-team" type="button" class="btn btn-primary">Get Team</button>
-       
+        
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-text">
+          <input id="AcrivePlayer" class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+          
+        </div>   
+        <p>active players</p>     
     </div>
     <div class="container text-center">
         <div id="row_container" class="row row-cols-1 row-cols-md-3 g-4">
@@ -25,9 +32,10 @@
     <script id="player_tamplate" type="text/x-handlebars-template">
        {{#each results}}   
         <div class="col">
-            <div class="card h-300">            
-              <img src="{{image}}" alt="Image" class="card-img-top" >
-              
+            <div class="card h-300">    
+                     
+              <img src="https://nba-players.herokuapp.com/players/{{LastName}}/{{FirstName}}" alt="static/defult.png" onerror="if (this.src != 'Sorry, that player was not found. Please check the spelling.') this.src = '/static/defult.png';" class="card-img-top" >
+             
               <div class="card-body">
                 <h2 class="card-title">{{FirstName}} {{LastName}}</h2>
                 <h2 class="card-title">{{jerseyNumber}}</h2>
