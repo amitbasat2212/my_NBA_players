@@ -32,15 +32,16 @@
     <script id="player_tamplate" type="text/x-handlebars-template">
        {{#each results}}   
         <div class="col">
-            <div class="card h-300">    
-                     
+            <div class="card h-300">                    
               <img src="https://nba-players.herokuapp.com/players/{{LastName}}/{{FirstName}}" alt="static/defult.png" onerror="if (this.src != 'Sorry, that player was not found. Please check the spelling.') this.src = '/static/defult.png';" class="card-img-top" >
              
               <div class="card-body">
-                <h2 class="card-title">{{FirstName}} {{LastName}}</h2>
-                <h2 class="card-title">{{jerseyNumber}}</h2>
-                <p class="card-text">{{position}}</p>
-                <button type="button" class="btn btn-info">Info</button>
+                <h2 class="card-firstName card-title">{{FirstName}} </h2>
+                <h2 class="card-lastName card-title">{{LastName}} </h2>
+                <h2 class="card-jersy card-title">{{jerseyNumber}}</h2>
+                <h3 class="card-position card-text">{{position}}</h3>
+                <p class="card-HasBirthDate card-text">{{HasBirthDate}}</p>
+                <button id="AddPlayer" type="button" class="btn btn-outline-info">Add Player</button>
               </div>
             </div>
           </div>     

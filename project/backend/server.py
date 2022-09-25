@@ -18,7 +18,7 @@ vegas="vegas"
 utah="utah"
 teams="teams"
 teamId="teamId"
-isActive="isActive"
+HasBirthDate="HasBirthDate"
 
 current_file = Path(__file__)
 current_file_dir = current_file.parent
@@ -57,13 +57,15 @@ def create_player_dream(player):
         "jerseyNumber":player["jerseyNumber"],
         "position":player["position"],
         "Image":player["Image"],
+        "HasBirthDate":player["HasBirthDate"]
     }
     return player;
 
 
 @app.post('/AddPlayer/', status_code=status.HTTP_201_CREATED)
 async def add_player_dream(request: Request):
-    respone = await request.json()    
+    respone = await request.json()
+    print(respone)    
     player = create_player_dream(respone)
     Dream_team.append(player)
     new_player = json.dumps(player)

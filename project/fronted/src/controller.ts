@@ -33,3 +33,19 @@ $('#ActivePlayer').on('click',()=>{
       }  
       
 })
+
+async function add_player(player:Player){
+    const newPlayer=await ModelSinglton.AddPlayerTeam(player);
+    return newPlayer;
+}
+
+$('body').on('click','#AddPlayer',function(){
+    const firstName= $(this).closest(".card-body").find(".card-firstName").text()
+    const lastName= $(this).closest(".card-body").find(".card-lastName").text()
+    const jersyNumber= $(this).closest(".card-body").find(".card-jersy").text()
+    const position= $(this).closest(".card-body").find(".card-position").text()   
+    const HasBirthDate= $(this).closest(".card-body").find(".card-active").text()    
+    let player:Player = new Player(firstName,lastName,jersyNumber,position,HasBirthDate);
+    return add_player(player)    
+
+})

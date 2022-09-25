@@ -28,7 +28,7 @@ class Model {
             const playersFilter = yield this.getPlayers(year, teamMate);
             let playersActive = [];
             if (Array.isArray(playersFilter)) {
-                playersActive = playersFilter.filter(player => player.isActive == true);
+                playersActive = playersFilter.filter(player => player.HasBirthDate !== "");
             }
             return playersActive;
         });
@@ -38,19 +38,33 @@ class Model {
             const Players = [];
             for (let i = 0; i < getPlayers.length; i++) {
                 getPlayers[i].forEach((element) => {
-                    Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, element.isActive));
+                    Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, element.dateOfBirthUTC));
                 });
             }
             return Players;
         });
     }
+    AddPlayerTeam(player) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const player_data = player;
+            try {
+                const newPlayer = yield $.post(`/AddPlayer/`, { data: player_data });
+                let Players = [];
+                const player = JSON.parse(newPlayer);
+                return (Players);
+            }
+            catch (err) {
+                return { err: err };
+            }
+        });
+    }
 }
 class Player {
-    constructor(FirstName, LastName, jerseyNumber, position, isActive) {
+    constructor(FirstName, LastName, jerseyNumber, position, HasBirthDate) {
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber = jerseyNumber;
         this.position = position;
-        this.isActive = isActive;
+        this.HasBirthDate = HasBirthDate;
     }
 }

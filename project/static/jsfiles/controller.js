@@ -39,3 +39,18 @@ $('#ActivePlayer').on('click', () => {
         getPlayerByTeamAndYear(getPlayers);
     }
 });
+function add_player(player) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const newPlayer = yield ModelSinglton.AddPlayerTeam(player);
+        return newPlayer;
+    });
+}
+$('body').on('click', '#AddPlayer', function () {
+    const firstName = $(this).closest(".card-body").find(".card-firstName").text();
+    const lastName = $(this).closest(".card-body").find(".card-lastName").text();
+    const jersyNumber = $(this).closest(".card-body").find(".card-jersy").text();
+    const position = $(this).closest(".card-body").find(".card-position").text();
+    const HasBirthDate = $(this).closest(".card-body").find(".card-active").text();
+    let player = new Player(firstName, lastName, jersyNumber, position, HasBirthDate);
+    return add_player(player);
+});

@@ -16,7 +16,7 @@ class Model{
         const playersFilter:Player[] | Object=await this.getPlayers(year,teamMate);
         let playersActive:Player[]=[]
         if(Array.isArray(playersFilter)){
-            playersActive = playersFilter.filter(player => player.isActive==true)    
+            playersActive = playersFilter.filter(player => player.HasBirthDate!=="")    
         }
           
         return playersActive;
@@ -30,11 +30,25 @@ class Model{
         const Players:Player[]=[];   
            for(let i=0;i<getPlayers.length;i++){
             getPlayers[i].forEach((element:any) => {                 
-                Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,element.isActive))
+                Players.push(new Player(element.firstName,element.lastName,element.jersey,element.pos,element.dateOfBirthUTC))
             });
         }       
        
         return Players; 
+    }
+
+    async AddPlayerTeam(player:Player):Promise<Player|Object>{
+        const player_data = player;
+        try{
+            const newPlayer = await $.post(`/AddPlayer/`,{data: player_data})
+            let Players:Player[]=[];
+            const player = JSON.parse(newPlayer)
+                     
+            return (Players)       
+        } catch(err){
+            return {err:err}
+        }  
+        
     }
 }
 
@@ -48,14 +62,14 @@ class Player{
     LastName:String
     jerseyNumber:String
     position:String
-    isActive:boolean
+    HasBirthDate:String
     
-    constructor(FirstName:String,LastName:String,jerseyNumber:String,position:String,isActive:boolean){
+    constructor(FirstName:String,LastName:String,jerseyNumber:String,position:String,HasBirthDate:String){
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber=jerseyNumber;
         this.position=position;
-        this.isActive=isActive;
+        this.HasBirthDate=HasBirthDate;
     }
 
 
