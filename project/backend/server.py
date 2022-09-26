@@ -30,7 +30,7 @@ static_root_absolute = project_root_absolute / "static"
 app.mount("/static", StaticFiles(directory=static_root_absolute), name="static")
 
 
-@app.get('/allThePlayersInSpesificYearAndTeam/',status_code=status.HTTP_200_OK)
+@app.get('/players/',status_code=status.HTTP_200_OK)
 async def get_all_the_players(year,teamname):
     tems_id_by_name = teams_id.get(teamname);
     if(tems_id_by_name==None):
@@ -49,40 +49,40 @@ async def get_all_the_players(year,teamname):
     return players_json
 
 
-def create_player_dream(player):
+def create_player_dream(player):    
     player = {
-        "id":player["FirstName"]+player["LastName"],
-        "FirstName":player["FirstName"],
-        "LastName":player["LastName"],
-        "jerseyNumber":player["jerseyNumber"],
-        "position":player["position"],
-        "Image":player["Image"],
-        "HasBirthDate":player["HasBirthDate"]
+        "id":player["player"]["FirstName"]+player["player"]["LastName"],
+        "FirstName":player["player"]["FirstName"],
+        "LastName":player["player"]["LastName"],
+        "jerseyNumber":player["player"]["jerseyNumber"],
+        "position":player["player"]["position"],
+        "HasBirthDate":player["player"]["HasBirthDate"]
     }
     return player;
 
 
-@app.post('/AddPlayer/', status_code=status.HTTP_201_CREATED)
-async def add_player_dream(request: Request):
-    respone = await request.json()
-    print(respone)    
-    player = create_player_dream(respone)
-    Dream_team.append(player)
-    new_player = json.dumps(player)
-    return new_player
+@app.post('/player/', status_code=status.HTTP_201_CREATED)
+async def add_player_dream(request: Request):        
+        respone = await request.json()              
+        player = create_player_dream(respone)
+        Dream_team.append(player)
+        new_player = json.dumps(player)
+        return new_player
     
-
-@app.delete('/DeletePlayer/{id_player}',status_code=status.HTTP_200_OK)
-async def delete_player(id_player):
+    
+    
+      
+@app.delete('/player/{player_id}',status_code=status.HTTP_200_OK)
+async def delete_player(player_id):
     global Dream_team
-    dream_list = [item for item in Dream_team if item.get('id') != id_player]
+    dream_list = [item for item in Dream_team if item.get('id') != player_id]
     Dream_team = dream_list;
     
 
 
-@app.get('/getPlayer/{id_player}',status_code=status.HTTP_200_OK)
-async def get_player(id_player):
-    dict_player = [item for item in Dream_team if item['id'] == id_player]
+@app.get('/player/{player_id}',status_code=status.HTTP_200_OK)
+async def get_player(player_id):
+    dict_player = [item for item in Dream_team if item['id'] == player_id]
     get_player = json.dumps(dict_player)
     return get_player;
 
@@ -95,5 +95,5 @@ def be():
 
 
 if __name__ == "__main__":
-     uvicorn.run("server:app", host="0.0.0.0", port=4001,reload=True)
+     uvicorn.run("server:app", host="0.0.0.0", port=6001,reload=True)
 

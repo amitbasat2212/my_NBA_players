@@ -18,10 +18,10 @@
     </div>
     <div class="input-group mb-3">
         <div class="input-group-text">
-          <input id="ActivePlayer" class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+          <input id="HasBirthDate" class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
           
         </div>   
-        <p>active players</p>     
+        <p>Has Birth Date</p>     
     </div>
     <div class="container text-center">
         <div id="row_container" class="row row-cols-1 row-cols-md-3 g-4">
@@ -40,7 +40,8 @@
                 <h2 class="card-lastName card-title">{{LastName}} </h2>
                 <h2 class="card-jersy card-title">{{jerseyNumber}}</h2>
                 <h3 class="card-position card-text">{{position}}</h3>
-                <p class="card-HasBirthDate card-text">{{HasBirthDate}}</p>
+                <p class="card-hasBirthDate card-text" style="display: none;">{{HasBirthDate}}</p>
+                <button id="DeletePlayer" type="button" class="btn btn-outline-danger">Delete Player</button>
                 <button id="AddPlayer" type="button" class="btn btn-outline-info">Add Player</button>
               </div>
             </div>

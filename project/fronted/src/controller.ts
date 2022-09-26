@@ -6,8 +6,8 @@ async function getPlayers(year:String,teamMate:String) {
     RenderSinglton.RenderThePlayers(players)
 }
 
-async function filter_active_player(year:String,teamMate:String){
-    const players=await ModelSinglton.FilterActivePlayers(year,teamMate);
+async function filterHasBirthDatePlayers(year:String,teamMate:String){
+    const players=await ModelSinglton.FilterHasBirthDatePlayers(year,teamMate);
     RenderSinglton.RenderThePlayers(players)
 }
 
@@ -21,31 +21,50 @@ $('#get-team').on('click',()=>{
     getPlayerByTeamAndYear(getPlayers);
 })
 
-$('#ActivePlayer').on('click',()=>{
+$('#HasBirthDate').on('click',()=>{
     const checkbox = document.getElementById(
-        'ActivePlayer',
+        'HasBirthDate',
       ) as HTMLInputElement | null;
 
       if (checkbox?.checked) {
-        getPlayerByTeamAndYear(filter_active_player);    
+        getPlayerByTeamAndYear(filterHasBirthDatePlayers);    
       }else{
         getPlayerByTeamAndYear(getPlayers);
       }  
       
 })
 
-async function add_player(player:Player){
-    const newPlayer=await ModelSinglton.AddPlayerTeam(player);
+async function addPlayer(player:Player){
+    const newPlayer= await ModelSinglton.AddPlayerTeam(player);
     return newPlayer;
 }
 
-$('body').on('click','#AddPlayer',function(){
-    const firstName= $(this).closest(".card-body").find(".card-firstName").text()
-    const lastName= $(this).closest(".card-body").find(".card-lastName").text()
-    const jersyNumber= $(this).closest(".card-body").find(".card-jersy").text()
-    const position= $(this).closest(".card-body").find(".card-position").text()   
-    const HasBirthDate= $(this).closest(".card-body").find(".card-active").text()    
-    let player:Player = new Player(firstName,lastName,jersyNumber,position,HasBirthDate);
-    return add_player(player)    
+
+function findPlayerPush(thePlayer:any):Player{
+    const firstName= $(thePlayer).closest(".card-body").find(".card-firstName").text()
+    const lastName= $(thePlayer).closest(".card-body").find(".card-lastName").text()
+    const jersyNumber= $(thePlayer).closest(".card-body").find(".card-jersy").text()
+    const position= $(thePlayer).closest(".card-body").find(".card-position").text()   
+    const HasBirthDate= $(thePlayer).closest(".card-body").find(".card-hasBirthDate").text()
+    const player:Player = new Player(firstName+lastName,firstName,lastName,jersyNumber,position,HasBirthDate);
+    return player;   
+}
+
+$('body').on('click','#AddPlayer',function(){       
+    const player:Player = findPlayerPush($(this));
+    let playerNewPromise = addPlayer(player)  
+    playerNewPromise.then((value)=>{
+        console.log(value);
+    })
 
 })
+
+
+$('body').on('click','#DeletePlayer',function(){
+//     const player:Player = findPlayerPush($(this));
+//    // let playerNewPromise = add_player(player)  
+//     playerNewPromise.then((value)=>{
+//         console.log(value);
+//     })
+})
+

@@ -12,7 +12,7 @@ class Model {
     getPlayers(year, teamMate) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const getPlayers = yield $.get(`/allThePlayersInSpesificYearAndTeam/?year=${year}&teamname=${teamMate.toLowerCase()}`);
+                const getPlayers = yield $.get(`/players/?year=${year}&teamname=${teamMate.toLowerCase()}`);
                 let Players = [];
                 const players = JSON.parse(getPlayers);
                 Players = yield this.createPlayers(players);
@@ -23,14 +23,14 @@ class Model {
             }
         });
     }
-    FilterActivePlayers(year, teamMate) {
+    FilterHasBirthDatePlayers(year, teamMate) {
         return __awaiter(this, void 0, void 0, function* () {
             const playersFilter = yield this.getPlayers(year, teamMate);
-            let playersActive = [];
+            let playersHasBirth = [];
             if (Array.isArray(playersFilter)) {
-                playersActive = playersFilter.filter(player => player.HasBirthDate !== "");
+                playersHasBirth = playersFilter.filter(player => player.HasBirthDate !== "");
             }
-            return playersActive;
+            return playersHasBirth;
         });
     }
     createPlayers(getPlayers) {
@@ -38,20 +38,33 @@ class Model {
             const Players = [];
             for (let i = 0; i < getPlayers.length; i++) {
                 getPlayers[i].forEach((element) => {
-                    Players.push(new Player(element.firstName, element.lastName, element.jersey, element.pos, element.dateOfBirthUTC));
+                    Players.push(new Player(element.firstName + element.lastName, element.firstName, element.lastName, element.jersey, element.pos, element.dateOfBirthUTC));
                 });
             }
             return Players;
         });
     }
+    ajaxRequests(urlRequest, type, player) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const new_player = yield $.post({
+                url: urlRequest,
+                type: type,
+                async: false,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    player
+                })
+            });
+            return new_player;
+        });
+    }
     AddPlayerTeam(player) {
         return __awaiter(this, void 0, void 0, function* () {
-            const player_data = player;
+            let new_player;
             try {
-                const newPlayer = yield $.post(`/AddPlayer/`, { data: player_data });
-                let Players = [];
-                const player = JSON.parse(newPlayer);
-                return (Players);
+                new_player = this.ajaxRequests("/player/", "post", player);
+                return new_player;
             }
             catch (err) {
                 return { err: err };
@@ -60,11 +73,12 @@ class Model {
     }
 }
 class Player {
-    constructor(FirstName, LastName, jerseyNumber, position, HasBirthDate) {
+    constructor(id, FirstName, LastName, jerseyNumber, position, HasBirthDate) {
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber = jerseyNumber;
         this.position = position;
         this.HasBirthDate = HasBirthDate;
+        this.id = id;
     }
 }
