@@ -37,42 +37,46 @@ class Model{
         return Players; 
     }
 
-    async ajaxRequests(urlRequest:string,type:string,player:Player):Promise<Player | Object>{
-       const new_player= await $.post({
-            url: urlRequest,
-            type: type,
-            async: false,
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                player
-            })              
-
-        })       
-        return new_player;
-    }
-
+    
     async AddPlayerTeam(player:Player):Promise<Player | Object> {                                 
-        let new_player:Promise<Player | Object>;      
+        let newPlayer:Player | Object;      
         try{
-            new_player = this.ajaxRequests("/player/","post",player);
-            return new_player;          
+            newPlayer= await $.post({
+                url: "/player/",
+                type: "post",
+                async: false,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    player
+                })              
+    
+            })       
+            return newPlayer;          
         } catch(err){
             return {err:err}
         }  
         
     }
 
-    // async DeletePlayer(player:Player):Promise<Player | Object> {                                 
-    //     let new_player:Player;      
-    //     try{
-                     
-    //     } catch(err){
-    //         return {err:err}
-    //     }  
+    async DeletePlayer(player:Player):Promise<Player | Object> {                                 
+        let newPlayer:Promise<Player | Object>;      
+        try{           
+                newPlayer= await $.ajax({
+                    url: `/player/${player["id"]}`,
+                    type: "DELETE",
+                    async: false,
+                    dataType: "json",
+                    contentType: "application/json",                            
         
-    // }
-
+                })       
+                return newPlayer;             
+        } catch(err){
+            return {err:err}
+        }  
+        
+    }
+    
 
 }
 

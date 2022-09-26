@@ -38,6 +38,10 @@ async function addPlayer(player:Player){
     const newPlayer= await ModelSinglton.AddPlayerTeam(player);
     return newPlayer;
 }
+async function deletePlayer(player:Player){
+    const newPlayer= await ModelSinglton.DeletePlayer(player);
+    return newPlayer;
+}
 
 
 function findPlayerPush(thePlayer:any):Player{
@@ -61,10 +65,10 @@ $('body').on('click','#AddPlayer',function(){
 
 
 $('body').on('click','#DeletePlayer',function(){
-//     const player:Player = findPlayerPush($(this));
-//    // let playerNewPromise = add_player(player)  
-//     playerNewPromise.then((value)=>{
-//         console.log(value);
-//     })
+    const player:Player = findPlayerPush($(this));
+    let playerNewPromise = deletePlayer(player)  
+    playerNewPromise.then((value)=>{
+        console.log(value);
+    })
 })
 

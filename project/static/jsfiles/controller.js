@@ -45,6 +45,12 @@ function addPlayer(player) {
         return newPlayer;
     });
 }
+function deletePlayer(player) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const newPlayer = yield ModelSinglton.DeletePlayer(player);
+        return newPlayer;
+    });
+}
 function findPlayerPush(thePlayer) {
     const firstName = $(thePlayer).closest(".card-body").find(".card-firstName").text();
     const lastName = $(thePlayer).closest(".card-body").find(".card-lastName").text();
@@ -62,9 +68,9 @@ $('body').on('click', '#AddPlayer', function () {
     });
 });
 $('body').on('click', '#DeletePlayer', function () {
-    //     const player:Player = findPlayerPush($(this));
-    //    // let playerNewPromise = add_player(player)  
-    //     playerNewPromise.then((value)=>{
-    //         console.log(value);
-    //     })
+    const player = findPlayerPush($(this));
+    let playerNewPromise = deletePlayer(player);
+    playerNewPromise.then((value) => {
+        console.log(value);
+    });
 });

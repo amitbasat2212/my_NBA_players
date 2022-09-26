@@ -77,6 +77,7 @@ async def delete_player(player_id):
     global Dream_team
     dream_list = [item for item in Dream_team if item.get('id') != player_id]
     Dream_team = dream_list;
+    return {"ok": True}
     
 
 

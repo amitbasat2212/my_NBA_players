@@ -44,27 +44,39 @@ class Model {
             return Players;
         });
     }
-    ajaxRequests(urlRequest, type, player) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const new_player = yield $.post({
-                url: urlRequest,
-                type: type,
-                async: false,
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    player
-                })
-            });
-            return new_player;
-        });
-    }
     AddPlayerTeam(player) {
         return __awaiter(this, void 0, void 0, function* () {
-            let new_player;
+            let newPlayer;
             try {
-                new_player = this.ajaxRequests("/player/", "post", player);
-                return new_player;
+                newPlayer = yield $.post({
+                    url: "/player/",
+                    type: "post",
+                    async: false,
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        player
+                    })
+                });
+                return newPlayer;
+            }
+            catch (err) {
+                return { err: err };
+            }
+        });
+    }
+    DeletePlayer(player) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let newPlayer;
+            try {
+                newPlayer = yield $.ajax({
+                    url: `/player/${player["id"]}`,
+                    type: "DELETE",
+                    async: false,
+                    dataType: "json",
+                    contentType: "application/json",
+                });
+                return newPlayer;
             }
             catch (err) {
                 return { err: err };
