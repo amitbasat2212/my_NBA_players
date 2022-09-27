@@ -81,16 +81,14 @@ async def delete_player(player_id):
     
 
 
-@app.get('/player/{player_id}',status_code=status.HTTP_200_OK)
-async def get_player(player_id):
-    dict_player = [item for item in Dream_team if item['id'] == player_id]
-    get_player = json.dumps(dict_player)
-    return get_player;
+@app.get('/playersDream/',status_code=status.HTTP_200_OK)
+async def get_players_dream():  
+    return json.dumps(Dream_team);
 
 
-@app.get('/')
-def be():
-    return FileResponse('../static/index.html')
+# @app.get('/')
+# def be():
+#     return FileResponse('../static/index.html')
 
 
 

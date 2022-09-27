@@ -37,11 +37,20 @@ class Model{
         return Players; 
     }
 
+
+    createPlayerDreamTeam(players:Array<Object>[]):Player[]{
+        const Players:Player[]=[];   
+        players.forEach((element:any) => {                 
+            Players.push(new Player(element.FirstName+element.LastName,element.FirstName,element.LastName,element.jerseyNumber,element.position,element.HasBirthDate))
+        });
+        return Players;
+    }
+
     
     async AddPlayerTeam(player:Player):Promise<Player | Object> {                                 
-        let newPlayer:Player | Object;      
+        let newPlayerResponse: string;   
         try{
-            newPlayer= await $.post({
+            newPlayerResponse= await $.post({
                 url: "/player/",
                 type: "post",
                 async: false,
@@ -51,7 +60,9 @@ class Model{
                     player
                 })              
     
-            })       
+            }) 
+            const players_json = JSON.parse(newPlayerResponse); 
+            const newPlayer =  this.createPlayerDreamTeam([players_json])   
             return newPlayer;          
         } catch(err){
             return {err:err}
@@ -59,8 +70,9 @@ class Model{
         
     }
 
+
     async DeletePlayer(player:Player):Promise<Player | Object> {                                 
-        let newPlayer:Promise<Player | Object>;      
+        let newPlayer:string;      
         try{           
                 newPlayer= await $.ajax({
                     url: `/player/${player["id"]}`,
@@ -69,8 +81,31 @@ class Model{
                     dataType: "json",
                     contentType: "application/json",                            
         
-                })       
+                })  
+                
                 return newPlayer;             
+        } catch(err){
+            return {err:err}
+        }  
+        
+        
+    }
+
+
+    async getDreamTeam():Promise<Player [] | Object> {                                 
+        let dreamTeam;        
+        try{           
+                dreamTeam= await $.ajax({
+                    url: "/playersDream/",
+                    type: "get",
+                    async: false,
+                    dataType: "json",
+                    contentType: "application/json",                            
+        
+                })  
+                const players_json = JSON.parse(dreamTeam);     
+                const players = this.createPlayerDreamTeam(players_json);               
+                return players;             
         } catch(err){
             return {err:err}
         }  

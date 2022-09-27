@@ -39,8 +39,12 @@ async function addPlayer(player:Player){
     return newPlayer;
 }
 async function deletePlayer(player:Player){
-    const newPlayer= await ModelSinglton.DeletePlayer(player);
-    return newPlayer;
+    const deletePlayer= await ModelSinglton.DeletePlayer(player);
+    return deletePlayer;
+}
+async function getDreamTeam(){
+    const dreamTeam= await ModelSinglton.getDreamTeam();
+    return dreamTeam;
 }
 
 
@@ -70,5 +74,13 @@ $('body').on('click','#DeletePlayer',function(){
     playerNewPromise.then((value)=>{
         console.log(value);
     })
+})
+
+$('#DreamTeam').on('click',()=>{    
+    let playerNewPromise = getDreamTeam()
+    playerNewPromise.then((value)=>{
+        console.log(value);
+    })
+    
 })
 

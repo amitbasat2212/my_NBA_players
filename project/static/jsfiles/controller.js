@@ -47,8 +47,14 @@ function addPlayer(player) {
 }
 function deletePlayer(player) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newPlayer = yield ModelSinglton.DeletePlayer(player);
-        return newPlayer;
+        const deletePlayer = yield ModelSinglton.DeletePlayer(player);
+        return deletePlayer;
+    });
+}
+function getDreamTeam() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const dreamTeam = yield ModelSinglton.getDreamTeam();
+        return dreamTeam;
     });
 }
 function findPlayerPush(thePlayer) {
@@ -70,6 +76,12 @@ $('body').on('click', '#AddPlayer', function () {
 $('body').on('click', '#DeletePlayer', function () {
     const player = findPlayerPush($(this));
     let playerNewPromise = deletePlayer(player);
+    playerNewPromise.then((value) => {
+        console.log(value);
+    });
+});
+$('#DreamTeam').on('click', () => {
+    let playerNewPromise = getDreamTeam();
     playerNewPromise.then((value) => {
         console.log(value);
     });

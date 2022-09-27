@@ -44,11 +44,18 @@ class Model {
             return Players;
         });
     }
+    createPlayerDreamTeam(players) {
+        const Players = [];
+        players.forEach((element) => {
+            Players.push(new Player(element.FirstName + element.LastName, element.FirstName, element.LastName, element.jerseyNumber, element.position, element.HasBirthDate));
+        });
+        return Players;
+    }
     AddPlayerTeam(player) {
         return __awaiter(this, void 0, void 0, function* () {
-            let newPlayer;
+            let newPlayerResponse;
             try {
-                newPlayer = yield $.post({
+                newPlayerResponse = yield $.post({
                     url: "/player/",
                     type: "post",
                     async: false,
@@ -58,6 +65,8 @@ class Model {
                         player
                     })
                 });
+                const players_json = JSON.parse(newPlayerResponse);
+                const newPlayer = this.createPlayerDreamTeam([players_json]);
                 return newPlayer;
             }
             catch (err) {
@@ -77,6 +86,26 @@ class Model {
                     contentType: "application/json",
                 });
                 return newPlayer;
+            }
+            catch (err) {
+                return { err: err };
+            }
+        });
+    }
+    getDreamTeam() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let dreamTeam;
+            try {
+                dreamTeam = yield $.ajax({
+                    url: "/playersDream/",
+                    type: "get",
+                    async: false,
+                    dataType: "json",
+                    contentType: "application/json",
+                });
+                const players_json = JSON.parse(dreamTeam);
+                const players = this.createPlayerDreamTeam(players_json);
+                return players;
             }
             catch (err) {
                 return { err: err };
