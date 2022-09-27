@@ -1,5 +1,5 @@
 class Model{
-    async getPlayers(year:String,teamMate:String):Promise<Player[] | Object>{     
+    async getPlayers(year:String,teamMate:String):Promise<Player[] | Object | Error >{     
         try{
             const getPlayers = await $.get(`/players/?year=${year}&teamname=${teamMate.toLowerCase( )}`)
             let Players:Player[]=[];

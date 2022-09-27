@@ -12,8 +12,19 @@ const ModelSinglton = new Model();
 const RenderSinglton = new Render();
 function getPlayers(year, teamMate) {
     return __awaiter(this, void 0, void 0, function* () {
-        const players = yield ModelSinglton.getPlayers(year, teamMate);
-        RenderSinglton.RenderThePlayers(players);
+        try {
+            const players = yield ModelSinglton.getPlayers(year, teamMate);
+            if (!Array.isArray(players)) {
+                RenderSinglton.RenderEmpty();
+                $("#projectIDSelectError").html("there is an error in your team or year").addClass("error-msg");
+            }
+            else {
+                RenderSinglton.RenderThePlayers(players);
+            }
+        }
+        catch (error) {
+            return error;
+        }
     });
 }
 function filterHasBirthDatePlayers(year, teamMate) {
@@ -79,14 +90,16 @@ $('body').on('click', '#DeletePlayer', function () {
     const player = findPlayerPush($(this));
     const addButton = $(this).closest(".card-body").find("#AddPlayer");
     let playerNewPromise = deletePlayer(player);
-    playerNewPromise.then((value) => {
+    playerNewPromise.then(() => {
         $(this).hide();
         addButton.show();
     });
 });
-$('#DreamTeam').on('click', () => {
+$('#DreamTeam').on('click', function () {
     let playerNewPromise = getDreamTeam();
     playerNewPromise.then((value) => {
         RenderSinglton.RenderThePlayers(value);
+        $(".hide-dream-team").hide();
+        $('.show-in-dreamteam').show();
     });
 });
