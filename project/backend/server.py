@@ -75,7 +75,7 @@ async def add_player_dream(request: Request):
 @app.delete('/player/{player_id}',status_code=status.HTTP_200_OK)
 async def delete_player(player_id):
     global Dream_team
-    dream_list = [item for item in Dream_team if item.get('id') != player_id]
+    dream_list = [item for item in Dream_team if item.get('id').replace(" ", "") != player_id.replace(" ", "")]
     Dream_team = dream_list;
     return {"ok": True}
     
@@ -86,13 +86,13 @@ async def get_players_dream():
     return json.dumps(Dream_team);
 
 
-# @app.get('/')
-# def be():
-#     return FileResponse('../static/index.html')
+@app.get('/')
+def be():
+    return FileResponse('../static/index.html')
 
 
 
 
 if __name__ == "__main__":
-     uvicorn.run("server:app", host="0.0.0.0", port=6001,reload=True)
+     uvicorn.run("server:app", host="0.0.0.0", port=7001,reload=True)
 

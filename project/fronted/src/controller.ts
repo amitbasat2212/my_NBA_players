@@ -60,9 +60,11 @@ function findPlayerPush(thePlayer:any):Player{
 
 $('body').on('click','#AddPlayer',function(){       
     const player:Player = findPlayerPush($(this));
+    const deleteButton= $(this).closest(".card-body").find("#DeletePlayer")
     let playerNewPromise = addPlayer(player)  
     playerNewPromise.then((value)=>{
-        console.log(value);
+        $(this).hide()
+        deleteButton.show();
     })
 
 })
@@ -70,16 +72,18 @@ $('body').on('click','#AddPlayer',function(){
 
 $('body').on('click','#DeletePlayer',function(){
     const player:Player = findPlayerPush($(this));
+    const addButton= $(this).closest(".card-body").find("#AddPlayer")
     let playerNewPromise = deletePlayer(player)  
     playerNewPromise.then((value)=>{
-        console.log(value);
+        $(this).hide()
+        addButton.show();
     })
 })
 
 $('#DreamTeam').on('click',()=>{    
     let playerNewPromise = getDreamTeam()
     playerNewPromise.then((value)=>{
-        console.log(value);
+        RenderSinglton.RenderThePlayers(value)
     })
     
 })
