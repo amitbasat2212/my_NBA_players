@@ -1,16 +1,12 @@
 
 
-
-#DeletePlayer{
-    display: none;
-}
 .image-max{
     max-height:300px;
 }
 
-.btn-degin-Dreamteam{
-    
-    padding-left: 100px;
+.btn-degin-Dreamteam{    
+    width: 200px;    
+  
 }
 .birth-date{
     margin-top: 30px;

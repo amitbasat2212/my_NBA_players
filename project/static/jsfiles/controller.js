@@ -13,6 +13,9 @@ const RenderSinglton = new Render();
 function getPlayers(year, teamMate) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            if (year == '' || teamMate == '') {
+                $("#projectIDSelectError").html("year or team ar empty").addClass("error-msg");
+            }
             const players = yield ModelSinglton.getPlayers(year, teamMate);
             if (!Array.isArray(players)) {
                 RenderSinglton.RenderEmpty();
@@ -74,7 +77,9 @@ function findPlayerPush(thePlayer) {
     const jersyNumber = $(thePlayer).closest(".card-body").find(".card-jersy").text();
     const position = $(thePlayer).closest(".card-body").find(".card-position").text();
     const HasBirthDate = $(thePlayer).closest(".card-body").find(".card-hasBirthDate").text();
-    const player = new Player(firstName + lastName, firstName, lastName, jersyNumber, position, HasBirthDate);
+    const DreamTeam = $(thePlayer).closest(".card-body").find(".card-DreamTeam").text();
+    const dreamTeamIn = DreamTeam === 'true';
+    const player = new Player(firstName + lastName, firstName, lastName, jersyNumber, position, HasBirthDate, dreamTeamIn);
     return player;
 }
 $('body').on('click', '#AddPlayer', function () {

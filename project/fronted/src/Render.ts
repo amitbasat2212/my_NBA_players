@@ -14,7 +14,7 @@ class Render{
         $('#row_container').append(newHTML)
     }
     
-
+    
     
 }
 

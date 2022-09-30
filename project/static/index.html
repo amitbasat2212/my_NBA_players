@@ -47,8 +47,18 @@
                 <h2 class="card-jersy card-title">{{jerseyNumber}}</h2>
                 <h3 class="card-position card-text">{{position}}</h3>
                 <p class="card-hasBirthDate card-text" style="display: none;">{{HasBirthDate}}</p>
-                <button  id="DeletePlayer" type="button" class="btn btn-outline-danger show-in-dreamteam">Delete Player</button>
-                <button id="AddPlayer" type="button" class="btn btn-outline-info hide-dream-team">Add Player</button>
+                <p class="card-DreamTeam card-text" style="display: none;">{{DreamTeam}}</p>
+                
+                {{#if DreamTeam}}
+                    <button  id="DeletePlayer" type="button" class="btn btn-outline-danger show-in-dreamteam">Delete Player</button>
+                    <button id="AddPlayer" type="button" class="btn btn-outline-info hide-dream-team" style="display:none;">Add Player</button>
+                {{else}} 
+                    <button  id="DeletePlayer" type="button" class="btn btn-outline-danger show-in-dreamteam" style="display:none;">Delete Player</button>
+                    <button id="AddPlayer" type="button" class="btn btn-outline-info hide-dream-team" >Add Player</button>
+                    
+               
+                {{/if}}
+               
               </div>
             </div>
           </div>     

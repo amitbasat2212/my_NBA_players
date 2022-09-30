@@ -3,12 +3,17 @@ const RenderSinglton = new Render();
 
 async function getPlayers(year:String,teamMate:String) {
     try{
-        const players=await ModelSinglton.getPlayers(year,teamMate);   
+        if(year=='' || teamMate==''){
+            $("#projectIDSelectError").html("year or team ar empty").addClass("error-msg"); 
+        }
+        const players=await ModelSinglton.getPlayers(year,teamMate); 
+
         if(!Array.isArray(players)){
             RenderSinglton.RenderEmpty();
             $("#projectIDSelectError").html("there is an error in your team or year").addClass("error-msg"); 
         
-        }else{
+
+        }else{       
             RenderSinglton.RenderThePlayers(players)
         }
     }catch(error){
@@ -17,7 +22,7 @@ async function getPlayers(year:String,teamMate:String) {
 }
 
 async function filterHasBirthDatePlayers(year:String,teamMate:String){
-    const players=await ModelSinglton.FilterHasBirthDatePlayers(year,teamMate);
+    const players=await ModelSinglton.FilterHasBirthDatePlayers(year,teamMate);    
     RenderSinglton.RenderThePlayers(players)
 }
 
@@ -64,7 +69,10 @@ function findPlayerPush(thePlayer:any):Player{
     const jersyNumber= $(thePlayer).closest(".card-body").find(".card-jersy").text()
     const position= $(thePlayer).closest(".card-body").find(".card-position").text()   
     const HasBirthDate= $(thePlayer).closest(".card-body").find(".card-hasBirthDate").text()
-    const player:Player = new Player(firstName+lastName,firstName,lastName,jersyNumber,position,HasBirthDate);
+    const DreamTeam= $(thePlayer).closest(".card-body").find(".card-DreamTeam").text()
+    const dreamTeamIn = DreamTeam === 'true';
+    const player:Player = new Player(firstName+lastName,firstName,lastName,jersyNumber,position,HasBirthDate,dreamTeamIn);
+    
     return player;   
 }
 
@@ -97,7 +105,7 @@ $('#DreamTeam').on('click',function(){
     playerNewPromise.then((value)=>{   
         RenderSinglton.RenderThePlayers(value)     
         $(".hide-dream-team").hide();
-        $('.show-in-dreamteam').show();    
+        $('.show-in-dreamteam').show();     
     
     })
     

@@ -49,16 +49,20 @@ async def get_all_the_players(year,teamname):
     return players_json
 
 
-def create_player_dream(player):    
-    player = {
-        "id":player["player"]["FirstName"]+player["player"]["LastName"],
+def create_player_dream(player): 
+    id_player = (player["player"]["FirstName"]+player["player"]["LastName"]).replace(" ", "")
+   
+    dream_player = {        
+        "id":id_player,
         "FirstName":player["player"]["FirstName"],
         "LastName":player["player"]["LastName"],
         "jerseyNumber":player["player"]["jerseyNumber"],
         "position":player["player"]["position"],
-        "HasBirthDate":player["player"]["HasBirthDate"]
+        "HasBirthDate":player["player"]["HasBirthDate"],
+        "DreamTeam":player["player"]["DreamTeam"]
     }
-    return player;
+    
+    return dream_player;
 
 
 @app.post('/player/', status_code=status.HTTP_201_CREATED)
@@ -67,6 +71,7 @@ async def add_player_dream(request: Request):
         player = create_player_dream(respone)
         Dream_team.append(player)
         new_player = json.dumps(player)
+        
         return new_player
     
     
@@ -94,5 +99,5 @@ def be():
 
 
 if __name__ == "__main__":
-     uvicorn.run("server:app", host="0.0.0.0", port=8001,reload=True)
+     uvicorn.run("server:app", host="0.0.0.0", port=5001,reload=True)
 
