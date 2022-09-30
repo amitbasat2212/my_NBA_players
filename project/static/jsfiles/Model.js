@@ -123,6 +123,20 @@ class Model {
             }
         });
     }
+    GetPlayerStatus(player) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let PlayerStatus;
+            try {
+                const lasName = String(player.FirstName.trim());
+                const firstName = String(player.LastName.trim());
+                PlayerStatus = yield $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`);
+                return PlayerStatus;
+            }
+            catch (err) {
+                return { err: err };
+            }
+        });
+    }
 }
 class Player {
     constructor(id, FirstName, LastName, jerseyNumber, position, HasBirthDate, DreamTeam) {
@@ -133,5 +147,14 @@ class Player {
         this.HasBirthDate = HasBirthDate;
         this.id = id;
         this.DreamTeam = DreamTeam;
+    }
+}
+class PlayerStatus {
+    constructor(TeamName, StealsPerGame, threePointPercentege, GamePlayed, PlayerEfficiencyRating) {
+        this.TeamName = TeamName;
+        this.StealsPerGame = StealsPerGame;
+        this.threePointPercentege = threePointPercentege;
+        this.GamePlayed = GamePlayed;
+        this.PlayerEfficiencyRating = PlayerEfficiencyRating;
     }
 }

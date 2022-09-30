@@ -71,6 +71,12 @@ function getDreamTeam() {
         return dreamTeam;
     });
 }
+function getPlayerStatus(player) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const playerStatus = yield ModelSinglton.GetPlayerStatus(player);
+        return playerStatus;
+    });
+}
 function findPlayerPush(thePlayer) {
     const firstName = $(thePlayer).closest(".card-body").find(".card-firstName").text();
     const lastName = $(thePlayer).closest(".card-body").find(".card-lastName").text();
@@ -106,5 +112,12 @@ $('#DreamTeam').on('click', function () {
         RenderSinglton.RenderThePlayers(value);
         $(".hide-dream-team").hide();
         $('.show-in-dreamteam').show();
+    });
+});
+$('body').on('click', '#StatusPlayer', function () {
+    const player = findPlayerPush($(this));
+    let playerStatusPromise = getPlayerStatus(player);
+    playerStatusPromise.then(() => {
+        //RenderSinglton.RenderThePlayerStatus()
     });
 });

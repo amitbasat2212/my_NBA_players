@@ -127,7 +127,19 @@ class Model{
     }
 
 
-    
+    async GetPlayerStatus(player:Player):Promise<Player | Object> {                                 
+        let PlayerStatus:string;      
+        try{  
+            const lasName:String = String(player.FirstName.trim());
+            const firstName:String = String(player.LastName.trim());         
+            PlayerStatus= await $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`)
+            return PlayerStatus;             
+        } catch(err){
+            return {err:err}
+        }  
+        
+        
+    }
     
 
 }
@@ -158,6 +170,26 @@ class Player{
 
 
 }
+
+
+class PlayerStatus{
+    TeamName:String
+    StealsPerGame:String
+    threePointPercentege:String
+    GamePlayed:String
+    PlayerEfficiencyRating:String
+    constructor(TeamName:String,StealsPerGame:String,threePointPercentege:String,GamePlayed:String,PlayerEfficiencyRating:String){
+        this.TeamName = TeamName;
+        this.StealsPerGame = StealsPerGame;
+        this.threePointPercentege=threePointPercentege;
+        this.GamePlayed=GamePlayed;
+        this.PlayerEfficiencyRating=PlayerEfficiencyRating;
+       
+    }
+
+}
+
+
 
 
 

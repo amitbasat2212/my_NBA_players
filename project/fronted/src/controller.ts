@@ -61,6 +61,10 @@ async function getDreamTeam(){
     const dreamTeam= await ModelSinglton.getDreamTeam();
     return dreamTeam;
 }
+async function getPlayerStatus(player:Player){
+    const playerStatus= await ModelSinglton.GetPlayerStatus(player);
+    return playerStatus;
+}
 
 
 function findPlayerPush(thePlayer:any):Player{
@@ -109,5 +113,15 @@ $('#DreamTeam').on('click',function(){
     
     })
     
+})
+
+$('body').on('click','#StatusPlayer',function(){
+    const player:Player = findPlayerPush($(this));   
+    let playerStatusPromise= getPlayerStatus(player)  
+    playerStatusPromise.then(()=>{
+        //RenderSinglton.RenderThePlayerStatus()
+         
+    })
+
 })
 

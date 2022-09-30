@@ -49,6 +49,7 @@
                 <p class="card-hasBirthDate card-text" style="display: none;">{{HasBirthDate}}</p>
                 <p class="card-DreamTeam card-text" style="display: none;">{{DreamTeam}}</p>
                 
+                <button  id="StatusPlayer" type="button" class="btn btn-outline-success">Player Status</button>
                 {{#if DreamTeam}}
                     <button  id="DeletePlayer" type="button" class="btn btn-outline-danger show-in-dreamteam">Delete Player</button>
                     <button id="AddPlayer" type="button" class="btn btn-outline-info hide-dream-team" style="display:none;">Add Player</button>
@@ -64,11 +65,13 @@
           </div>     
        {{/each}} 
         </script>    
-    
+        <script id="playerstatus_tamplate" type="text/x-handlebars-template">
+
+        </script>
 
     <!-- JavaScript Bundle with Popper -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-     <script src="static/jsfiles/Model.js"></script>   
+     <script src="static/jsfiles/Model.js"></script>        
      <script src="static/jsfiles/Render.js"></script>   
      <script src="static/jsfiles/controller.js"></script>   
      <script id="player_tamplate" type="text/x-handlebars-template">    

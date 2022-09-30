@@ -13,8 +13,12 @@ class Render{
         console.log(players)
         $('#row_container').append(newHTML)
     }
+
+    RenderThePlayerStatus(PlayerStatus:any){
+        
+    }
     
-    
+
     
 }
 
