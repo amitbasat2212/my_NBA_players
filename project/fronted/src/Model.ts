@@ -127,13 +127,15 @@ class Model{
     }
 
 
-    async GetPlayerStatus(player:Player):Promise<Player | Object> {                                 
-        let PlayerStatus:string;      
+    async GetPlayerStatus(player:Player):Promise<PlayerStatus | Object> {                                 
+        let PlayerStatusJson; 
+        let playerStatus:PlayerStatus;     
         try{  
             const lasName:String = String(player.FirstName.trim());
             const firstName:String = String(player.LastName.trim());         
-            PlayerStatus= await $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`)
-            return PlayerStatus;             
+            PlayerStatusJson= await $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`)
+            playerStatus = new PlayerStatus(PlayerStatusJson["team_name"],PlayerStatusJson["steals_per_game"],PlayerStatusJson["three_point_percentage"],PlayerStatusJson["games_played"],PlayerStatusJson["player_efficiency_rating"])
+            return playerStatus;             
         } catch(err){
             return {err:err}
         }  
@@ -178,6 +180,8 @@ class PlayerStatus{
     threePointPercentege:String
     GamePlayed:String
     PlayerEfficiencyRating:String
+
+
     constructor(TeamName:String,StealsPerGame:String,threePointPercentege:String,GamePlayed:String,PlayerEfficiencyRating:String){
         this.TeamName = TeamName;
         this.StealsPerGame = StealsPerGame;

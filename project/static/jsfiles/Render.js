@@ -8,9 +8,12 @@ class Render {
         const source = $('#player_tamplate').html();
         const template = Handlebars.compile(source);
         const newHTML = template({ results: players });
-        console.log(players);
         $('#row_container').append(newHTML);
     }
     RenderThePlayerStatus(PlayerStatus) {
+        const source = $('#playerstatus_tamplate').html();
+        const template = Handlebars.compile(source);
+        const newHTML = template({ status: PlayerStatus });
+        $('#row_status_container').append(newHTML);
     }
 }

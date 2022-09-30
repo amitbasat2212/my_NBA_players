@@ -104,7 +104,7 @@ $('body').on('click','#DeletePlayer',function(){
     })
 })
 
-$('#DreamTeam').on('click',function(){    
+$('#DreamTeamGet').on('click',function(){    
     let playerNewPromise = getDreamTeam()    
     playerNewPromise.then((value)=>{   
         RenderSinglton.RenderThePlayers(value)     
@@ -118,8 +118,8 @@ $('#DreamTeam').on('click',function(){
 $('body').on('click','#StatusPlayer',function(){
     const player:Player = findPlayerPush($(this));   
     let playerStatusPromise= getPlayerStatus(player)  
-    playerStatusPromise.then(()=>{
-        //RenderSinglton.RenderThePlayerStatus()
+    playerStatusPromise.then((value)=>{
+        RenderSinglton.RenderThePlayerStatus(value);
          
     })
 

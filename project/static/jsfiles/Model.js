@@ -125,12 +125,14 @@ class Model {
     }
     GetPlayerStatus(player) {
         return __awaiter(this, void 0, void 0, function* () {
-            let PlayerStatus;
+            let PlayerStatusJson;
+            let playerStatus;
             try {
                 const lasName = String(player.FirstName.trim());
                 const firstName = String(player.LastName.trim());
-                PlayerStatus = yield $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`);
-                return PlayerStatus;
+                PlayerStatusJson = yield $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`);
+                playerStatus = new PlayerStatus(PlayerStatusJson["team_name"], PlayerStatusJson["steals_per_game"], PlayerStatusJson["three_point_percentage"], PlayerStatusJson["games_played"], PlayerStatusJson["player_efficiency_rating"]);
+                return playerStatus;
             }
             catch (err) {
                 return { err: err };
