@@ -26,17 +26,10 @@ class Model{
 
     async getDreamTeam():Promise<Player [] | Object> {                                 
         let dreamTeam;        
-        try{           
-                dreamTeam= await $.ajax({
-                    url: "/playersDream/",
-                    type: "get",
-                    async: false,
-                    dataType: "json",
-                    contentType: "application/json",                            
-        
-                })  
+        try{                  
+                dreamTeam= await $.get(`/playersDream/`)
                 const players_json:Player[] = JSON.parse(dreamTeam);     
-                const players:Player[] = this.createPlayerDreamTeam(players_json);               
+                const players:Promise<Player[]> = this.createPlayerDreamTeam(players_json);               
                 return players;             
         } catch(err){
             return {err:err}
@@ -62,8 +55,10 @@ class Model{
     async createPlayers(getPlayers:any):Promise<Player[]>{
         const Players:Player[]=[];   
            for(let i=0;i<getPlayers.length;i++){
-            getPlayers[i].forEach((element:any) => {                                
-                Players.push(new Player(element.firstName+element.lastName,element.firstName,element.lastName,element.jersey,element.pos,element.dateOfBirthUTC,false))
+            getPlayers[i].forEach((element:any) => {  
+                let FirstName = element.firstName;                 
+                let LastName = element.lastName;                                               
+                Players.push(new Player(element.firstName+element.lastName,element.firstName,element.lastName,element.jersey,element.pos,element.dateOfBirthUTC,false,`https://nba-players.herokuapp.com/players/${LastName}/${FirstName}`))
             });
         }       
        
@@ -71,10 +66,12 @@ class Model{
     }
 
 
-    createPlayerDreamTeam(players:Player[]):Player[]{
+    async createPlayerDreamTeam(players:Player[]):Promise<Player[]>{
         const Players:Player[]=[];   
-        players.forEach((element:any) => {                 
-            Players.push(new Player(element.id,element.FirstName,element.LastName,element.jerseyNumber,element.position,element.HasBirthDate,true))
+        players.forEach((element:any) => {
+            let FirstName = element.FirstName.trim();                 
+            let LastName = element.LastName.trim();                 
+            Players.push(new Player(element.id,element.FirstName,element.LastName,element.jerseyNumber,element.position,element.HasBirthDate,true,`https://nba-players.herokuapp.com/players/${LastName}/${FirstName}`))
         });
         return Players;
     }
@@ -159,8 +156,9 @@ class Player{
     position:String
     HasBirthDate:String
     DreamTeam:boolean
+    Image:String
     
-    constructor(id:String,FirstName:String,LastName:String,jerseyNumber:String,position:String,HasBirthDate:String,DreamTeam:boolean){
+    constructor(id:String,FirstName:String,LastName:String,jerseyNumber:String,position:String,HasBirthDate:String,DreamTeam:boolean,Image:String){
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber=jerseyNumber;
@@ -168,6 +166,7 @@ class Player{
         this.HasBirthDate=HasBirthDate;
         this.id=id;
         this.DreamTeam=DreamTeam;
+        this.Image=Image;
     }
 
 

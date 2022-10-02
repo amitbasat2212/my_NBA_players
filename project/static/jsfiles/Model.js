@@ -37,13 +37,7 @@ class Model {
         return __awaiter(this, void 0, void 0, function* () {
             let dreamTeam;
             try {
-                dreamTeam = yield $.ajax({
-                    url: "/playersDream/",
-                    type: "get",
-                    async: false,
-                    dataType: "json",
-                    contentType: "application/json",
-                });
+                dreamTeam = yield $.get(`/playersDream/`);
                 const players_json = JSON.parse(dreamTeam);
                 const players = this.createPlayerDreamTeam(players_json);
                 return players;
@@ -68,18 +62,24 @@ class Model {
             const Players = [];
             for (let i = 0; i < getPlayers.length; i++) {
                 getPlayers[i].forEach((element) => {
-                    Players.push(new Player(element.firstName + element.lastName, element.firstName, element.lastName, element.jersey, element.pos, element.dateOfBirthUTC, false));
+                    let FirstName = element.firstName;
+                    let LastName = element.lastName;
+                    Players.push(new Player(element.firstName + element.lastName, element.firstName, element.lastName, element.jersey, element.pos, element.dateOfBirthUTC, false, `https://nba-players.herokuapp.com/players/${LastName}/${FirstName}`));
                 });
             }
             return Players;
         });
     }
     createPlayerDreamTeam(players) {
-        const Players = [];
-        players.forEach((element) => {
-            Players.push(new Player(element.id, element.FirstName, element.LastName, element.jerseyNumber, element.position, element.HasBirthDate, true));
+        return __awaiter(this, void 0, void 0, function* () {
+            const Players = [];
+            players.forEach((element) => {
+                let FirstName = element.FirstName.trim();
+                let LastName = element.LastName.trim();
+                Players.push(new Player(element.id, element.FirstName, element.LastName, element.jerseyNumber, element.position, element.HasBirthDate, true, `https://nba-players.herokuapp.com/players/${LastName}/${FirstName}`));
+            });
+            return Players;
         });
-        return Players;
     }
     AddPlayerTeam(player) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -141,7 +141,7 @@ class Model {
     }
 }
 class Player {
-    constructor(id, FirstName, LastName, jerseyNumber, position, HasBirthDate, DreamTeam) {
+    constructor(id, FirstName, LastName, jerseyNumber, position, HasBirthDate, DreamTeam, Image) {
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.jerseyNumber = jerseyNumber;
@@ -149,6 +149,7 @@ class Player {
         this.HasBirthDate = HasBirthDate;
         this.id = id;
         this.DreamTeam = DreamTeam;
+        this.Image = Image;
     }
 }
 class PlayerStatus {

@@ -84,8 +84,9 @@ function findPlayerPush(thePlayer) {
     const position = $(thePlayer).closest(".card-body").find(".card-position").text();
     const HasBirthDate = $(thePlayer).closest(".card-body").find(".card-hasBirthDate").text();
     const DreamTeam = $(thePlayer).closest(".card-body").find(".card-DreamTeam").text();
+    const Image = $(thePlayer).closest(".card-body").find("#ImagePlayer").prop('src');
     const dreamTeamIn = DreamTeam === 'true';
-    const player = new Player(firstName + lastName, firstName, lastName, jersyNumber, position, HasBirthDate, dreamTeamIn);
+    const player = new Player(firstName + lastName, firstName, lastName, jersyNumber, position, HasBirthDate, dreamTeamIn, Image);
     return player;
 }
 $('body').on('click', '#AddPlayer', function () {

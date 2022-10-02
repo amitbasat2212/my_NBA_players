@@ -44,7 +44,7 @@
        {{#each results}}   
         <div class="col">
             <div class="card h-300">                    
-              <img src="https://nba-players.herokuapp.com/players/{{LastName}}/{{FirstName}}" alt="" onerror="if (this.src != 'Sorry, that player was not found. Please check the spelling.') this.src = '/static/defult1.png';" class="card-img-top image-max" >
+              <img id="ImagePlayer" src="{{Image}}" alt="" onerror="if (this.src != 'Sorry, that player was not found. Please check the spelling.') this.src = '/static/defult1.png';" class="card-img-top image-max" >
              
               <div class="card-body">
                 <h2 class="card-firstName card-title">{{FirstName}} </h2>
