@@ -8,6 +8,7 @@ class Render {
     }
     RenderThePlayers(players) {
         this.RenderEmptyPlayers();
+        this.RenderEmptyStatusPlayer();
         const source = $('#player_tamplate').html();
         const template = Handlebars.compile(source);
         const newHTML = template({ results: players });

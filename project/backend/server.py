@@ -67,7 +67,8 @@ def create_player_dream(player):
 
 
 @app.post('/player/', status_code=status.HTTP_201_CREATED)
-async def add_player_dream(request: Request):        
+async def add_player_dream(request: Request):   
+             
         respone = await request.json()              
         player = create_player_dream(respone)
         Dream_team.append(player)
@@ -99,5 +100,5 @@ def be():
 
 
 if __name__ == "__main__":
-     uvicorn.run("server:app", host="0.0.0.0", port=8080,reload=True)
+     uvicorn.run("server:app", host="0.0.0.0", port=8090,reload=True)
 

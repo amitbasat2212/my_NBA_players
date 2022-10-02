@@ -10,6 +10,7 @@ class Render{
 
     RenderThePlayers(players:Player[] | Object){
         this.RenderEmptyPlayers();
+        this.RenderEmptyStatusPlayer();
         const source = $('#player_tamplate').html();
         const template = Handlebars.compile(source)
         const newHTML = template({results:players})        
@@ -20,7 +21,7 @@ class Render{
         this.RenderEmptyStatusPlayer();
         const source = $('#playerstatus_tamplate').html();
         const template = Handlebars.compile(source)
-        const newHTML = template({status:PlayerStatus})        
+        const newHTML = template({status:PlayerStatus})                
         $('#row_status_container').append(newHTML)
     }
     
