@@ -44,8 +44,7 @@
        {{#each results}}   
         <div class="col">
             <div class="card h-300">                    
-              <img id="ImagePlayer" src="{{Image}}" alt="" onerror="if (this.src != 'Sorry, that player was not found. Please check the spelling.') this.src = '/static/defult1.png';" class="card-img-top image-max" >
-             
+              <img id="ImagePlayer" src="{{Image}}" alt="" onerror="if (this.src != 'Sorry, that player was not found. Please check the spelling.') this.src = '/static/defult1.png';" class="card-img-top image-max" >             
               <div class="card-body">
                 <h2 class="card-firstName card-title">{{FirstName}} </h2>
                 <h2 class="card-lastName card-title">{{LastName}} </h2>
@@ -78,6 +77,7 @@
         <script id="playerstatus_tamplate" type="text/x-handlebars-template">
             <div class="card text-center">
                 <div class="card-header">
+                <b><h1>{{status.namePlayer}}</h1></b>    
                 <b><h2> Status of player</h2></b>
                 </div>               
                 <div class="card-body">

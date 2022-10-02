@@ -64,7 +64,8 @@ class Model {
                 getPlayers[i].forEach((element) => {
                     let FirstName = element.firstName;
                     let LastName = element.lastName;
-                    Players.push(new Player(element.firstName + element.lastName, element.firstName, element.lastName, element.jersey, element.pos, element.dateOfBirthUTC, false, `https://nba-players.herokuapp.com/players/${LastName}/${FirstName}`));
+                    let image = `https://nba-players.herokuapp.com/players/${LastName}/${FirstName}`;
+                    Players.push(new Player(element.firstName + element.lastName, element.firstName, element.lastName, element.jersey, element.pos, element.dateOfBirthUTC, false, image));
                 });
             }
             return Players;
@@ -76,7 +77,8 @@ class Model {
             players.forEach((element) => {
                 let FirstName = element.FirstName.trim();
                 let LastName = element.LastName.trim();
-                Players.push(new Player(element.id, element.FirstName, element.LastName, element.jerseyNumber, element.position, element.HasBirthDate, true, `https://nba-players.herokuapp.com/players/${LastName}/${FirstName}`));
+                let image = `https://nba-players.herokuapp.com/players/${LastName}/${FirstName}`;
+                Players.push(new Player(element.id, element.FirstName, element.LastName, element.jerseyNumber, element.position, element.HasBirthDate, true, image));
             });
             return Players;
         });
@@ -97,7 +99,6 @@ class Model {
                 });
                 const players_json = JSON.parse(newPlayerResponse);
                 const newPlayer = this.createPlayerDreamTeam([players_json]);
-                console.log(newPlayer);
                 return newPlayer;
             }
             catch (err) {
@@ -131,7 +132,7 @@ class Model {
                 const lasName = String(player.FirstName.trim());
                 const firstName = String(player.LastName.trim());
                 PlayerStatusJson = yield $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`);
-                playerStatus = new PlayerStatus(PlayerStatusJson["team_name"], PlayerStatusJson["steals_per_game"], PlayerStatusJson["three_point_percentage"], PlayerStatusJson["games_played"], PlayerStatusJson["player_efficiency_rating"]);
+                playerStatus = new PlayerStatus(PlayerStatusJson["team_name"], PlayerStatusJson["steals_per_game"], PlayerStatusJson["three_point_percentage"], PlayerStatusJson["games_played"], PlayerStatusJson["player_efficiency_rating"], PlayerStatusJson["name"]);
                 return playerStatus;
             }
             catch (err) {
@@ -153,11 +154,12 @@ class Player {
     }
 }
 class PlayerStatus {
-    constructor(TeamName, StealsPerGame, threePointPercentege, GamePlayed, PlayerEfficiencyRating) {
+    constructor(TeamName, StealsPerGame, threePointPercentege, GamePlayed, PlayerEfficiencyRating, namePlayer) {
         this.TeamName = TeamName;
         this.StealsPerGame = StealsPerGame;
         this.threePointPercentege = threePointPercentege;
         this.GamePlayed = GamePlayed;
         this.PlayerEfficiencyRating = PlayerEfficiencyRating;
+        this.namePlayer = namePlayer;
     }
 }
