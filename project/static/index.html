@@ -25,6 +25,10 @@
         <h5 class="birth-date-discription">Has Birth Date</h5>     
     </div>
     <div class="container text-center">
+        <div id="row_status_container" class="status" class="row">
+                      
+            
+        </div> 
         <div id="row_container" class="row row-cols-1 row-cols-md-3 g-4">
                       
             
@@ -61,32 +65,32 @@
                
                 {{/if}}
                
+               
               </div>
+      
             </div>
+             
           </div> 
-          <div id="row_status_container" class="row row-cols-1 row-cols-md-3 g-4">
-                      
-            
-          </div>   
+          
          
        {{/each}} 
         </script>    
         <script id="playerstatus_tamplate" type="text/x-handlebars-template">
             <div class="card text-center">
                 <div class="card-header">
-                  Status of players
+                <b><h2> Status of player</h2></b>
                 </div>               
                 <div class="card-body">
-                  <h5 class="card-title">TeamName</h5>
-                  <p class="card-text">{{status.TeamName}}</p>
-                  <h5 class="card-title">StealsPerGame</h5>
-                  <p class="card-text">{{status.StealsPerGame}}</p>
-                  <h5 class="card-title">threePointPercentege</h5>
-                  <p class="card-text">{{status.threePointPercentege}}</p>
-                  <h5 class="card-title">GamePlayed</h5>
-                  <p class="card-text">{{status.GamePlayed}}</p>
-                  <h5 class="card-title">PlayerEfficiencyRating</h5>
-                  <p class="card-text">{{status.PlayerEfficiencyRating}}</p>
+                  <h3 class="card-title">TeamName</h3>
+                  <h5 class="card-text">{{status.TeamName}}</h5>
+                  <h3 class="card-title">Steals Per Game</h3>
+                  <h5 class="card-text">{{status.StealsPerGame}}</h5>
+                  <h3 class="card-title">three Point Percentege</h3>
+                  <h5 class="card-text">{{status.threePointPercentege}}</h5>
+                  <h3 class="card-title">Game Played</h3>
+                  <h5 class="card-text">{{status.GamePlayed}}</h5>
+                  <h3 class="card-title">Player Efficiency Rating</h3>
+                  <h5 class="card-text">{{status.PlayerEfficiencyRating}}</h5>
                 
                 </div>
                 

@@ -46,6 +46,7 @@ async def get_all_the_players(year,teamname):
         league_players = all_the_player_in_year[area]
         plyers_by_year_and_teammate.append(list(filter(lambda player:player[teamId]==tems_id_by_name ,league_players)))
     players_json = json.dumps(plyers_by_year_and_teammate)
+  
     return players_json
 
 
@@ -98,5 +99,5 @@ def be():
 
 
 if __name__ == "__main__":
-     uvicorn.run("server:app", host="0.0.0.0", port=5001,reload=True)
+     uvicorn.run("server:app", host="0.0.0.0", port=8080,reload=True)
 

@@ -9,7 +9,7 @@ async function getPlayers(year:String,teamMate:String) {
         const players=await ModelSinglton.getPlayers(year,teamMate); 
 
         if(!Array.isArray(players)){
-            RenderSinglton.RenderEmpty();
+            RenderSinglton.RenderEmptyPlayers();
             $("#projectIDSelectError").html("there is an error in your team or year").addClass("error-msg"); 
         
 

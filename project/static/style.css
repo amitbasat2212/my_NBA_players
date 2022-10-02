@@ -1,4 +1,7 @@
-
+.status{
+    margin-top: 20px;
+    margin-bottom:  80px;
+}
 .image-max{
     max-height:300px;
 }

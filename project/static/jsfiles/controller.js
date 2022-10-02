@@ -18,7 +18,7 @@ function getPlayers(year, teamMate) {
             }
             const players = yield ModelSinglton.getPlayers(year, teamMate);
             if (!Array.isArray(players)) {
-                RenderSinglton.RenderEmpty();
+                RenderSinglton.RenderEmptyPlayers();
                 $("#projectIDSelectError").html("there is an error in your team or year").addClass("error-msg");
             }
             else {
