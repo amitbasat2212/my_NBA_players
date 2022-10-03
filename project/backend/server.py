@@ -60,20 +60,19 @@ def create_player_dream(player):
         "jerseyNumber":player["player"]["jerseyNumber"],
         "position":player["player"]["position"],
         "HasBirthDate":player["player"]["HasBirthDate"],
-        "DreamTeam":player["player"]["DreamTeam"]
+        "DreamTeam":player["player"]["DreamTeam"],
+        "Image":player["player"]["Image"]
     }
     
     return dream_player;
 
 
 @app.post('/player/', status_code=status.HTTP_201_CREATED)
-async def add_player_dream(request: Request):   
-             
+async def add_player_dream(request: Request):               
         respone = await request.json()              
         player = create_player_dream(respone)
         Dream_team.append(player)
-        new_player = json.dumps(player)
-        
+        new_player = json.dumps(player)        
         return new_player
     
     

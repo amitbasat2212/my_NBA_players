@@ -12,8 +12,8 @@ class Model {
     getPlayers(year, teamMate) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const getPlayers = yield $.get(`/players/?year=${year}&teamname=${teamMate.toLowerCase()}`);
                 let Players = [];
+                const getPlayers = yield $.get(`/players/?year=${year}&teamname=${teamMate.toLowerCase()}`);
                 const players = JSON.parse(getPlayers);
                 Players = yield this.createPlayers(players);
                 const DreamTeam = yield this.getDreamTeam();

@@ -98,9 +98,9 @@ $('body').on('click','#DeletePlayer',function(){
     const player:Player = findPlayerPush($(this));
     const addButton= $(this).closest(".card-body").find("#AddPlayer")
     let playerNewPromise = deletePlayer(player)  
-    playerNewPromise.then(()=>{
+    playerNewPromise.then(()=>{          
         $(this).hide()
-        addButton.show();
+        addButton.show();        
          
     })
 })
