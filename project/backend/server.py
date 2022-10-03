@@ -52,7 +52,6 @@ async def get_all_the_players(year,teamname):
 
 def create_player_dream(player): 
     id_player = (player["player"]["FirstName"]+player["player"]["LastName"]).replace(" ", "")
-   
     dream_player = {        
         "id":id_player,
         "FirstName":player["player"]["FirstName"],
