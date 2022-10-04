@@ -75,7 +75,7 @@ function findPlayerPush(thePlayer:any):Player{
     const position= $(thePlayer).closest(".card-body").find(".card-position").text()   
     const HasBirthDate= $(thePlayer).closest(".card-body").find(".card-hasBirthDate").text()
     const DreamTeam= $(thePlayer).closest(".card-body").find(".card-DreamTeam").text()
-    const Image= $(thePlayer).closest(".card-body").find("#ImagePlayer").prop('src')
+    const Image= $(thePlayer).closest(".card").find("#ImagePlayer").prop('src')
     const dreamTeamIn = DreamTeam === 'true';
     const player:Player = new Player(firstName+lastName,firstName,lastName,jersyNumber,position,HasBirthDate,dreamTeamIn,Image);
     
