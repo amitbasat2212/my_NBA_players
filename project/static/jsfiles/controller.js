@@ -91,26 +91,27 @@ function findPlayerPush(thePlayer) {
 }
 $('body').on('click', '#AddPlayer', function () {
     const player = findPlayerPush($(this));
-    const deleteButton = $(this).closest(".card-body").find("#DeletePlayer");
     let playerNewPromise = addPlayer(player);
     playerNewPromise.then((value) => {
         $(this).hide();
-        deleteButton.show();
     });
 });
 $('body').on('click', '#DeletePlayer', function () {
     const player = findPlayerPush($(this));
-    const addButton = $(this).closest(".card-body").find("#AddPlayer");
     let playerNewPromise = deletePlayer(player);
     playerNewPromise.then(() => {
-        $(this).hide();
-        addButton.show();
+        let playerNewPromise = getDreamTeam();
+        playerNewPromise.then((value) => {
+            RenderSinglton.RenderThePlayers(value);
+            $('.btn-outline-danger').show();
+        });
     });
 });
 $('#DreamTeamGet').on('click', function () {
     let playerNewPromise = getDreamTeam();
     playerNewPromise.then((value) => {
         RenderSinglton.RenderThePlayers(value);
+        $('#DeletePlayer').show();
         $(".hide-dream-team").hide();
         $('.show-in-dreamteam').show();
     });

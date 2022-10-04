@@ -34,6 +34,7 @@ function getPlayerByTeamAndYear(callback:Function){
 
 $('#get-team').on('click',()=>{
     getPlayerByTeamAndYear(getPlayers);
+   
 })
 
 $('#HasBirthDate').on('click',()=>{
@@ -83,11 +84,9 @@ function findPlayerPush(thePlayer:any):Player{
 
 $('body').on('click','#AddPlayer',function(){       
     const player:Player = findPlayerPush($(this));
-    const deleteButton= $(this).closest(".card-body").find("#DeletePlayer")
     let playerNewPromise = addPlayer(player)  
-    playerNewPromise.then((value)=>{
-        $(this).hide()
-        deleteButton.show();
+    playerNewPromise.then((value)=>{        
+        $(this).hide();
          
     })
 
@@ -95,12 +94,14 @@ $('body').on('click','#AddPlayer',function(){
 
 
 $('body').on('click','#DeletePlayer',function(){
-    const player:Player = findPlayerPush($(this));
-    const addButton= $(this).closest(".card-body").find("#AddPlayer")
-    let playerNewPromise = deletePlayer(player)  
-    playerNewPromise.then(()=>{          
-        $(this).hide()
-        addButton.show();        
+   const player:Player = findPlayerPush($(this));
+   let playerNewPromise = deletePlayer(player)  
+   playerNewPromise.then(()=>{ 
+        let playerNewPromise = getDreamTeam()
+        playerNewPromise.then((value)=>{             
+            RenderSinglton.RenderThePlayers(value)     
+            $('.btn-outline-danger').show();        
+        })         
          
     })
 })
@@ -108,7 +109,8 @@ $('body').on('click','#DeletePlayer',function(){
 $('#DreamTeamGet').on('click',function(){    
     let playerNewPromise = getDreamTeam()    
     playerNewPromise.then((value)=>{   
-        RenderSinglton.RenderThePlayers(value)     
+        RenderSinglton.RenderThePlayers(value)
+        $('#DeletePlayer').show();     
         $(".hide-dream-team").hide();
         $('.show-in-dreamteam').show();     
     

@@ -60,7 +60,7 @@ def create_player_dream(player):
         "position":player["player"]["position"],
         "HasBirthDate":player["player"]["HasBirthDate"],
         "DreamTeam":player["player"]["DreamTeam"],
-        "Image":player["player"]["Image"]
+        #"Image":player["player"]["Image"]
     }
     
     return dream_player;

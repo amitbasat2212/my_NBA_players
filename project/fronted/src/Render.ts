@@ -4,6 +4,7 @@ class Render{
     RenderEmptyPlayers(){
         $('#row_container').empty();
     }
+   
     RenderEmptyStatusPlayer(){
         $('#row_status_container').empty();
     }
