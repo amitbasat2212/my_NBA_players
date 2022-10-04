@@ -13,7 +13,8 @@ class Model {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let Players = [];
-                const getPlayers = yield $.get(`/players/?year=${year}&teamname=${teamMate.toLowerCase()}`);
+                const urlGetPlayers = `/players/?year=${year}&teamname=${teamMate.toLowerCase()}`;
+                const getPlayers = yield $.get(urlGetPlayers);
                 const players = JSON.parse(getPlayers);
                 Players = yield this.createPlayers(players);
                 const DreamTeam = yield this.getDreamTeam();
@@ -37,7 +38,8 @@ class Model {
         return __awaiter(this, void 0, void 0, function* () {
             let dreamTeam;
             try {
-                dreamTeam = yield $.get(`/playersDream/`);
+                const urlGetDreamTeam = `/playersDream/`;
+                dreamTeam = yield $.get(urlGetDreamTeam);
                 const players_json = JSON.parse(dreamTeam);
                 const players = this.createPlayerDreamTeam(players_json);
                 return players;
@@ -131,7 +133,8 @@ class Model {
             try {
                 const lasName = String(player.FirstName.trim());
                 const firstName = String(player.LastName.trim());
-                PlayerStatusJson = yield $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`);
+                const PlayerGetStatus = `https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`;
+                PlayerStatusJson = yield $.get(PlayerGetStatus);
                 playerStatus = new PlayerStatus(PlayerStatusJson["team_name"], PlayerStatusJson["steals_per_game"], PlayerStatusJson["three_point_percentage"], PlayerStatusJson["games_played"], PlayerStatusJson["player_efficiency_rating"], PlayerStatusJson["name"]);
                 return playerStatus;
             }

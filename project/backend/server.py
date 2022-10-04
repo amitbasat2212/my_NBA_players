@@ -33,19 +33,22 @@ app.mount("/static", StaticFiles(directory=static_root_absolute), name="static")
 @app.get('/players/',status_code=status.HTTP_200_OK)
 async def get_all_the_players(year,teamname):
     tems_id_by_name = teams_id.get(teamname);
+    url_request = f'http://data.nba.net/10s/prod/v1/{year}/players.json';
     if(tems_id_by_name==None):
         raise HTTPException(status_code=404, detail="the team dosent excit")
-    res_players = requests.get(f'http://data.nba.net/10s/prod/v1/{year}/players.json')
+
+    res_players = requests.get(url_request)
+    
     if(res_players.status_code==200):
         all_the_player_in_year=res_players.json()[league] 
     else:
         raise HTTPException(status_code=404, detail="erorr in the api")
-    plyers_by_year_and_teammate=[];
+    players_by_year_and_teammate=[];
     
     for area in all_the_player_in_year:
         league_players = all_the_player_in_year[area]
-        plyers_by_year_and_teammate.append(list(filter(lambda player:player[teamId]==tems_id_by_name ,league_players)))
-    players_json = json.dumps(plyers_by_year_and_teammate)
+        players_by_year_and_teammate.append(list(filter(lambda player:player[teamId]==tems_id_by_name ,league_players)))
+    players_json = json.dumps(players_by_year_and_teammate)
   
     return players_json
 

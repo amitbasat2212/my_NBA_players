@@ -2,10 +2,7 @@ const ModelSinglton =new Model();
 const RenderSinglton = new Render();
 
 async function getPlayers(year:String,teamMate:String) {
-    try{
-        if(year=='' || teamMate==''){
-            $("#projectIDSelectError").html("year or team ar empty").addClass("error-msg"); 
-        }
+    try{        
         const players=await ModelSinglton.getPlayers(year,teamMate); 
 
         if(!Array.isArray(players)){

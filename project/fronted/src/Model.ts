@@ -1,8 +1,9 @@
 class Model{
     async getPlayers(year:String,teamMate:String):Promise<Player[] | Object | Error >{     
         try{
-            let Players:Player[]=[];    
-            const getPlayers = await $.get(`/players/?year=${year}&teamname=${teamMate.toLowerCase( )}`)
+            let Players:Player[]=[]; 
+            const urlGetPlayers = `/players/?year=${year}&teamname=${teamMate.toLowerCase( )}`   
+            const getPlayers = await $.get(urlGetPlayers)
             const players = JSON.parse(getPlayers)
             Players = await this.createPlayers(players);
             const DreamTeam = await this.getDreamTeam();
@@ -26,8 +27,9 @@ class Model{
 
     async getDreamTeam():Promise<Player [] | Object> {                                 
         let dreamTeam;        
-        try{                  
-                dreamTeam= await $.get(`/playersDream/`)
+        try{
+                const urlGetDreamTeam = `/playersDream/`;                  
+                dreamTeam= await $.get(urlGetDreamTeam)
                 const players_json:Player[] = JSON.parse(dreamTeam);     
                 const players:Promise<Player[]> = this.createPlayerDreamTeam(players_json);               
                 return players;             
@@ -131,7 +133,8 @@ class Model{
         try{  
             const lasName:String = String(player.FirstName.trim());
             const firstName:String = String(player.LastName.trim());         
-            PlayerStatusJson= await $.get(`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`)
+            const PlayerGetStatus =`https://nba-players.herokuapp.com/players-stats/${firstName}/${lasName}`;
+            PlayerStatusJson= await $.get(PlayerGetStatus)
             playerStatus = new PlayerStatus(PlayerStatusJson["team_name"],PlayerStatusJson["steals_per_game"],PlayerStatusJson["three_point_percentage"],PlayerStatusJson["games_played"],PlayerStatusJson["player_efficiency_rating"],PlayerStatusJson["name"])
             return playerStatus;             
         } catch(err){
