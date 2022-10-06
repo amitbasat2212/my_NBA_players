@@ -48,19 +48,19 @@ $('#HasBirthDate').on('click',()=>{
       
 })
 
-async function addPlayer(player:Player){
+async function addPlayer(player:Player):Promise<Player |Object>{
     const newPlayer= await ModelSinglton.AddPlayerTeam(player);
     return newPlayer;
 }
-async function deletePlayer(player:Player){
+async function deletePlayer(player:Player):Promise<Player |Object>{
     const deletePlayer= await ModelSinglton.DeletePlayer(player);
     return deletePlayer;
 }
-async function getDreamTeam(){
+async function getDreamTeam(): Promise<Player |Object>{
     const dreamTeam= await ModelSinglton.getDreamTeam();
     return dreamTeam;
 }
-async function getPlayerStatus(player:Player){
+async function getPlayerStatus(player:Player):Promise<PlayerStatus |Object>{
     const playerStatus= await ModelSinglton.GetPlayerStatus(player);
     return playerStatus;
 }
