@@ -56,7 +56,13 @@ def test_get_all_players_dream():
    assert get_all_team[0]["jerseyNumber"]=="2"
    assert get_all_team[0]["position"]=="g"
    assert get_all_team[0]["HasBirthDate"]=="1/1/2019"
-   assert response_json.status_code==200   
+   assert response_json.status_code==200
+
+
+def test_get_playets_year_team_wrong():
+  response_json= requests.get(f'http://localhost:8070/players/?year={""}&teamname={""}')    
+  response = response_json.json();  
+  assert response_json.status_code==404
 
 
 
