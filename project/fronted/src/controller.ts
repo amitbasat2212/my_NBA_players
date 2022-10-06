@@ -1,3 +1,4 @@
+
 const ModelSinglton =new Model();
 const RenderSinglton = new Render();
 

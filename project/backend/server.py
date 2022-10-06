@@ -49,21 +49,21 @@ async def get_all_the_players(year,teamname):
         league_players = all_the_player_in_year[area]
         players_by_year_and_teammate.append(list(filter(lambda player:player[teamId]==tems_id_by_name ,league_players)))
     players_json = json.dumps(players_by_year_and_teammate)
-  
     return players_json
 
 
 def create_player_dream(player): 
     id_player = (player["player"]["FirstName"]+player["player"]["LastName"]).replace(" ", "")
+    player_dream = player["player"];
     dream_player = {        
         "id":id_player,
-        "FirstName":player["player"]["FirstName"],
-        "LastName":player["player"]["LastName"],
-        "jerseyNumber":player["player"]["jerseyNumber"],
-        "position":player["player"]["position"],
-        "HasBirthDate":player["player"]["HasBirthDate"],
-        "DreamTeam":player["player"]["DreamTeam"],
-        "Image":player["player"]["Image"]
+        "FirstName":player_dream["FirstName"],
+        "LastName":player_dream["LastName"],
+        "jerseyNumber":player_dream["jerseyNumber"],
+        "position":player_dream["position"],
+        "HasBirthDate":player_dream["HasBirthDate"],
+        "DreamTeam":player_dream["DreamTeam"],
+        "Image":player_dream["Image"]
     }
     
     return dream_player;
@@ -101,5 +101,5 @@ def be():
 
 
 if __name__ == "__main__":
-     uvicorn.run("server:app", host="0.0.0.0", port=8070,reload=True)
+     uvicorn.run("server:app", host="0.0.0.0", port=8080,reload=True)
 
